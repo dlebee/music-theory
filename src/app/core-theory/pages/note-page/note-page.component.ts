@@ -6,10 +6,7 @@ import { Observable } from 'rxjs';
 import { INote } from '../../models/INote';
 import { NoteIntervalService } from '../../services/note-interval.service';
 import { INoteInterval } from '../../models/INoteInterval';
-
-import { Synth } from 'tone/build/esm/instrument/Synth';
-
-const synth = new Synth().toDestination();
+import { ToneService } from '../../services/tone.service';
 
 @Component({
   selector: 'app-note-page',
@@ -24,7 +21,8 @@ export class NotePageComponent implements OnInit{
 
   constructor(private noteService: NoteService, 
     private noteIntervalService: NoteIntervalService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private tone: ToneService) {
 
   }
   ngOnInit(): void {
@@ -35,8 +33,6 @@ export class NotePageComponent implements OnInit{
   }
 
   playNote(noteName: string, nextOctave: boolean = false) {
-    
-    // trigger the attack immediately
-    synth.triggerAttackRelease(noteName + (nextOctave ? "5" : "4"), "8n")
+    this.tone.playNote(noteName, nextOctave ? "5" : "4", "8n");
   }
 }

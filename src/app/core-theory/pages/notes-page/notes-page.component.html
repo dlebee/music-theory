@@ -1,7 +1,7 @@
 <ng-container *ngIf="noteService.getNotes() | async as notes">
     <div class="row">
         <div *ngFor="let note of notes" class="col-md-4 mt-3">
-            <div class="card" [routerLink]="['/notes', note.name]">
+            <div class="card" style="height: 175px;">
                 <div class="card-body">
                     <h5 class="card-title">{{ note.name }}</h5>
                     <p class="card-text">
@@ -11,9 +11,19 @@
                         <span *ngIf="note.isNatural" class="badge bg-info">is natural</span>
                     </p>
                 </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col">
+                            <button [routerLink]="['/notes', note.name]" class="btn btn-primary w-100">Details</button>
+                        </div>
+                        <div class="col">
+                            <button (click)="playNote(note.name)" class="btn btn-secondary w-100">Play</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    
-   
+
+
 </ng-container>
