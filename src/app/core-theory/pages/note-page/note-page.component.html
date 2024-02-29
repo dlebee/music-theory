@@ -50,6 +50,9 @@
                             Notes: 
                             <span *ngFor="let ni of c.noteIntervals" class="badge bg-secondary me-2" (click)="playNote(ni.note.name)">{{ ni.note.name }} <small>{{ni.note.alternativeName}}</small></span>
                         </p>
+                        
+                    </div>
+                    <div class="card-footer">
                         <button (click)="playChord(c)" class="btn btn-primary">Play</button>
                     </div>
                 </div>
