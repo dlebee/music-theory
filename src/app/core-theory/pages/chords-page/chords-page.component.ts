@@ -2,7 +2,7 @@ import { Component, NgModule } from '@angular/core';
 import { ChordTypes, IChord, IChordDefinition, chords } from '../../models/IChord';
 import { AsyncPipe, JsonPipe, NgFor, NgIf } from '@angular/common';
 import { FormsModule, NgModel } from '@angular/forms';
-import { Observable, of, switchMap, zip } from 'rxjs';
+import { Observable, flatMap, forkJoin, map, of, switchMap, zip, zipAll } from 'rxjs';
 import { ChordsService } from '../../services/chords.service';
 import { NoteService } from '../../services/note.service';
 import { ToneService } from '../../services/tone.service';
@@ -17,20 +17,27 @@ import { INote } from '../../models/INote';
 })
 export class ChordsPageComponent {
 
-  _currentType: ChordTypes | null = null;
-  chords$?: Observable<IChord[]>;
+  _currentTypes: ChordTypes[] = [];
+  _currentNotes: string[] = [];
+  chords$?: Observable<IChord[]> = of([]);
+  notes$: Observable<INote[]>;
 
   constructor(private chordService: ChordsService, private noteService: NoteService,
     private tone: ToneService) {
-
+      
+    this.notes$ = noteService.getNotes();
   }
 
   get definitions() {
     return chords;
   }
 
-  get currentType() {
-    return this._currentType;
+  get currentTypes() {
+    return this._currentTypes;
+  }
+
+  get currentNotes() {
+    return this._currentNotes;
   }
 
   playNote(note: INote) {
@@ -41,18 +48,22 @@ export class ChordsPageComponent {
     this.tone.playChord(chord);
   }
 
-  set currentType(newType: ChordTypes | null) {
-    if (this._currentType != newType) {
-      this._currentType = newType;
-      if (newType == null) {
-        this.chords$ = of([]);
-      } else {
-        this.chords$ = this.noteService.getNotes().pipe(
-          switchMap(notes => {
-            return zip(...notes.map(note => this.chordService.chord(note, newType)))
-          })
-        );
-      }
-    }
+  set currentNotes(values: string[]) {
+    this._currentNotes = values;
+    this.refreshChords();
+  }
+
+  set currentTypes(values: ChordTypes[]) {
+    this._currentTypes = values;
+    this.refreshChords();
+  }
+
+  refreshChords() {
+    let temp = this.currentNotes.map(note => {
+      return this.currentTypes.map(chordType => {
+        return this.chordService.chord(note, chordType);
+      });
+    }).reduce((prev, cur) => prev.concat(cur));
+    this.chords$ = zip(... temp);
   }
 }

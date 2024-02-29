@@ -1,21 +1,36 @@
-<p>Select a Type of Chord</p>
-<select class="form-control" [(ngModel)]="currentType">
-    <option [value]="null">Choose a chord</option>
-    <option *ngFor="let d of definitions" [value]="d.type">
-        {{ d.title }}
-    </option>
-</select>
+<div class="row">
+    <div class="col-md-6">
+        <h1>Select Chords</h1>
+        <select class="form-control" [(ngModel)]="currentTypes" multiple>
+            <option [value]="null">Choose a chord</option>
+            <option *ngFor="let d of definitions" [value]="d.type">
+                {{ d.title }}
+            </option>
+        </select>
+    </div>
+    <div class="col-md-6">
+        <ng-container *ngIf="notes$ | async as notes">
+            <h1>Select Notes:</h1>
+            <select class="form-control" [(ngModel)]="currentNotes" multiple>
+                <option [value]="null">Choose notes</option>
+                <option *ngFor="let n of notes" [value]="n.name">
+                    {{ n.name }} {{ n.alternativeName}}
+                </option>
+            </select>
+        </ng-container>
+    </div>
+</div>
 
 <ng-container *ngIf="(chords$ | async) as chords">
     <div class="row">
         <div class="col col-4 mt-2" *ngFor="let chord of chords">
             <div class="card">
-            
+
                 <div class="card-body">
                     <h5 class="card-title">
                         {{ chord.key.name }}
                         <span class="small">{{chord.key.alternativeName}}</span>
-    
+
                         &nbsp;
                         {{ chord.chordDefinition.title }}
                     </h5>
