@@ -72,7 +72,7 @@ export class NotePageComponent implements OnInit{
     let handler = setInterval(() => {
       
       if (index < scale.noteIntervals.length) {
-        let note = scale.noteIntervals[index];
+        let note = scale.noteIntervals[index].note;
         this.playNote(note.name, false);
         if (index == 0) {
           clearInterval(handler);
