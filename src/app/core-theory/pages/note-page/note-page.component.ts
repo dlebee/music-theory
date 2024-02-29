@@ -9,6 +9,8 @@ import { INoteInterval } from '../../models/INoteInterval';
 import { ToneService } from '../../services/tone.service';
 import { ChordsService } from '../../services/chords.service';
 import { IChord } from '../../models/IChord';
+import { IScale } from '../../models/IScale';
+import { ScalesService } from '../../services/scales.service';
 
 @Component({
   selector: 'app-note-page',
@@ -21,12 +23,14 @@ export class NotePageComponent implements OnInit{
   note$?: Observable<INote>;
   noteIntervals$?: Observable<INoteInterval[]>;
   chords$?: Observable<IChord[]>;
+  scales$?: Observable<IScale[]>;
 
   constructor(private noteService: NoteService, 
     private noteIntervalService: NoteIntervalService,
     private route: ActivatedRoute,
     private tone: ToneService,
-    private chordService: ChordsService) {
+    private chordService: ChordsService,
+    private scalesService: ScalesService) {
 
   }
   ngOnInit(): void {
@@ -35,6 +39,7 @@ export class NotePageComponent implements OnInit{
       this.note$ = this.noteService.getNote(noteName);
       this.noteIntervals$ = this.noteIntervalService.getNoteIntervals(noteName);
       this.chords$ = this.chordService.allChords(noteName);
+      this.scales$ = this.scalesService.allScales(noteName);
     });
   }
 
@@ -44,5 +49,39 @@ export class NotePageComponent implements OnInit{
 
   playChord(chord: IChord) {
     this.tone.playChord(chord);
+  }
+
+  playScale(scale: IScale) {
+    let index = 0;
+    let handler = setInterval(() => {
+      
+      if (index < scale.notes.length) {
+        let note = scale.notes[index];
+        this.playNote(note.name, false);
+      } else {
+        this.playNote(scale.key.name, true);
+        clearInterval(handler);
+      }
+
+      index++;
+    }, 1000);
+  }
+
+  playReverseScale(scale: IScale) {
+    let index = scale.notes.length;
+    let handler = setInterval(() => {
+      
+      if (index < scale.notes.length) {
+        let note = scale.notes[index];
+        this.playNote(note.name, false);
+        if (index == 0) {
+          clearInterval(handler);
+        }
+      } else {
+        this.playNote(scale.key.name, true);
+      }
+
+      index--;
+    }, 1000);
   }
 }

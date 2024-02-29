@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 
 import { Synth } from 'tone/build/esm/instrument/Synth';
 import { PolySynth } from 'tone/build/esm/instrument/PolySynth';
-import { Transport } from 'tone/build/esm/core/clock/Transport';
-import { Part } from 'tone/build/esm/event/Part';
 import { IChord } from '../models/IChord';
 
 const synth = new Synth().toDestination();

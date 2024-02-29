@@ -34,7 +34,7 @@ export class NoteIntervalService {
           const [notes, intervals] = pair;
 
           let noteName: string = typeof note == "object" ? (note as INote).name : note as string;
-          let currentNote = notes.find(t => t.name == noteName);
+          let currentNote = notes.find(t => t.name.toLowerCase() == noteName.toLowerCase());
           if (!currentNote) {
             throw Error(`could not find note ${noteName}`);
           }
