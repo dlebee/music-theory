@@ -44,15 +44,15 @@ export class ChordsService {
         let notes = chordDefinition!.semitones.map(s => {
           let finalSemiTone = safeSemiTone(s);
           let noteInterval = noteIntervals.find(ni => ni.distanceInHalfTones == finalSemiTone);
-          return noteInterval!.note;
+          return noteInterval!;
         });
 
         let chord: IChord = {
-          key: notes[0],
+          key: notes[0].note,
           type: type,
           title: chordDefinition!.title,
           chordDefinition: chordDefinition!,
-          notes: notes
+          noteIntervals: notes
         };
 
         return chord;

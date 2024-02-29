@@ -31,7 +31,7 @@ export class ScalesService {
         let scaleNotes = scaleDefinition!.semitones.map(s => {
           let finalSemiTone = safeSemiTone(s);
           let noteInterval = noteIntervals.find(ni => ni.distanceInHalfTones == finalSemiTone);
-          return noteInterval!.note;
+          return noteInterval;
         });
 
         let scaleCategory = categories.find(t => t.type == scaleDefinition.category);
@@ -40,7 +40,7 @@ export class ScalesService {
           key: noteIntervals[0].note,
           category: scaleCategory,
           definition: scaleDefinition,
-          notes: scaleNotes
+          noteIntervals: scaleNotes
         };
       })
     );

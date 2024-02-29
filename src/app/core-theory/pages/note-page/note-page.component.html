@@ -10,98 +10,76 @@
     </div>
 
     <ng-container *ngIf="(noteIntervals$ | async) as noteIntervals">
-        <h4 class="mt-5">Intervals</h4>
-        <table class="mt-2 table table-sm table-bordered">
-            <thead>
-                <tr>
-                    <th>Distance In half tones</th>
-                    <th>Note</th>
-                    <th>Interval Name</th>
-                    <th>Interval Symbol</th>
-                    <th>Natural note</th>
-                    <th>Play</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let ni of noteIntervals">
-                    <td>{{ ni.distanceInHalfTones }}</td>
-                    <td>
-                        {{ ni.note.name }}
-                        <span class="font-italic font-weight-light">{{ ni.note.alternativeName }}</span>
-                    </td>
-                    <td>{{ ni.name }}</td>
-                    <td>{{ ni.symbol }}</td>
-                    <td [class.font-weight-bold]="ni.note.isNatural">
-                        {{ ni.note.isNatural ? 'yes' : 'no' }}
-                    </td>
-                    <td>
-                        <button (click)="playNote(ni.note.name, ni.distanceInHalfTones == 12)" class="btn btn-secondary btn-sm">play</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="row mt-3">
+            <div class="col-12">
+                <h4>Intervals</h4>
+            </div>
+            <div class="col-12 col-md-4 col-lg-2" *ngFor="let ni of noteIntervals">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ ni.name | titlecase }} <small class="text-muted">{{ ni.symbol }}</small></h5>
+                
+                        <p class="card-text">
+                            {{ ni.note.name }} {{ ni.note.alternativeName }}
+                        </p>
+                        <p class="card-text">
+                            Distance: {{ ni.distanceInHalfTones }}
+                        </p>
+                        <button (click)="playNote(ni.note.name)" class="btn btn-primary">Play</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </ng-container>
 
     <ng-container *ngIf="(chords$ | async) as chords">
-        <h4 class="mt-5">Chords</h4>
-        <table class="table table-bordered table-sm">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Notes</th>
-                    <th>Play</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let c of chords">
-                    <td>{{ c.title }}</td>
-                    <td>
-                        <ng-container *ngFor="let n of c.notes">
-                            <span class="badge bg-secondary mr-2" (click)="playNote(n.name)">
-                                {{ n.name }}
-                                <span class="font-weight-light">{{ n.alternativeName }}</span>
-                            </span>
-                            &nbsp;
-                        </ng-container>
-                    </td>
-                    <td>
-                        <button class="btn btn-sm btn-secondary" (click)="playChord(c)">Play</button>
-                    </td>
-                </tr>
-            </tbody>        
-        </table>
+        <div class="row mt-3">
+            <div class="col-12">
+                <h4>Chords</h4>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4" *ngFor="let c of chords">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ c.title }}</h5>
+                        <p class="card-text">
+                            Intervals: 
+                            <span *ngFor="let ni of c.noteIntervals" class="badge bg-secondary me-2">{{ ni.name }}</span>
+                        </p>
+                        <p class="card-text">
+                            Notes: 
+                            <span *ngFor="let ni of c.noteIntervals" class="badge bg-secondary me-2" (click)="playNote(ni.note.name)">{{ ni.note.name }} <small>{{ni.note.alternativeName}}</small></span>
+                        </p>
+                        <button (click)="playChord(c)" class="btn btn-primary">Play</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </ng-container>
 
     <ng-container *ngIf="(scales$ | async) as scales">
-        <h4 class="mt-5">Scales</h4>
-        <table class="table table-bordered table-sm">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Notes</th>
-                    <th>Play</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let s of scales">
-                    <td>{{ s.definition.name }}</td>
-                    <td>
-                        <ng-container *ngFor="let n of s.notes">
-                            <span class="badge bg-secondary mr-2" (click)="playNote(n.name)">
-                                {{ n.name }}
-                                <span class="font-weight-light">{{ n.alternativeName }}</span>
-                            </span>
-                            &nbsp;
-                        </ng-container>
-                    </td>
-                    <td>
-                        <button class="btn btn-sm btn-secondary" (click)="playScale(s)">Play</button>
-                        &nbsp;
-                        <button class="btn btn-sm btn-secondary" (click)="playReverseScale(s)">Play Reverse</button>
-                    </td>
-                </tr>
-            </tbody>        
-        </table>
+        <div class="row mt-3">
+            <div class="col-12">
+                <h4>Scales</h4>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4" *ngFor="let s of scales">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ s.definition.name }}</h5>
+                        <h6 class="card-subtitle">{{ s.category.name }}</h6>
+                        <p class="card-text mt-2">
+                            Intervals: 
+                            <span *ngFor="let ni of s.noteIntervals" class="badge bg-secondary me-2">{{ ni.name }}</span>
+                        </p>
+                        <p class="card-text">
+                            Notes: 
+                            <span *ngFor="let ni of s.noteIntervals" class="badge bg-secondary me-2" (click)="playNote(ni.note.name)">{{ ni.note.name }} <small>{{ni.note.alternativeName}}</small></span>
+                        </p>
+                        <button (click)="playScale(s)" class="btn btn-primary me-2">Play</button>
+                        <button (click)="playReverseScale(s)" class="btn btn-primary">Play Reverse</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </ng-container>
 </div>
 

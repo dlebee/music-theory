@@ -1,4 +1,5 @@
 import { INote } from "./INote";
+import { INoteInterval } from "./INoteInterval";
 
 export enum ChordTypes {
     Major = "major",
@@ -27,7 +28,7 @@ export interface IChord
     type: ChordTypes;
     title: string;
     key: INote;
-    notes: INote[];
+    noteIntervals: INoteInterval[];
     chordDefinition: IChordDefinition;
 }
 

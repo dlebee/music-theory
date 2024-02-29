@@ -1,4 +1,5 @@
 import { INote } from "./INote";
+import { INoteInterval } from "./INoteInterval";
 
 export enum ScaleCategoryTypes {
     MAJOR = "Major",
@@ -74,7 +75,7 @@ export const categories: IScaleCategory[] = [
 
 export interface IScale {
     key: INote,
-    notes: INote[];
+    noteIntervals: INoteInterval[];
     definition: IScaleDefinition,
     category: IScaleCategory
 }

@@ -34,10 +34,10 @@
                         &nbsp;
                         {{ chord.chordDefinition.title }}
                     </h5>
-                    <ng-container *ngFor="let n of chord.notes">
-                        <span class="badge bg-secondary" (click)="playNote(n)">
-                            {{n.name}}
-                            <small>{{n.alternativeName}}</small>
+                    <ng-container *ngFor="let ni of chord.noteIntervals">
+                        <span class="badge bg-secondary" (click)="playNote(ni.note)">
+                            {{ni.note.name}}
+                            <small>{{ni.note.alternativeName}}</small>
                         </span>&nbsp;
                     </ng-container>
 

@@ -22,7 +22,7 @@ export class ToneService {
   
 
   playChord(chord: IChord) {
-    const parts = chord.notes.map(t => t.name + "4");
+    const parts = chord.noteIntervals.map(t => t.note.name + "4");
     polySynth.triggerAttackRelease(parts, "4n");
   }
 }
