@@ -20,8 +20,7 @@ export class ScalesService {
 
   scale(note: INote | string, type: ScaleType): Observable<IScale> {
     let noteName: string = typeof note == "object" ? (note as INote).name : note as string;
-
-    return this.noteIntervalService.getNoteIntervals(note).pipe(
+    return this.noteIntervalService.getNoteIntervals(noteName).pipe(
       map(noteIntervals => {
 
         const scaleDefinition = scales.find(t => t.type == type);

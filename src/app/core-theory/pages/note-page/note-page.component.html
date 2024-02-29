@@ -70,6 +70,13 @@
                             Intervals: 
                             <span *ngFor="let ni of s.noteIntervals" class="badge bg-secondary me-2">{{ ni.name }}</span>
                         </p>
+                        <p class="card-text mt-2">
+                            Steps: 
+                            <span class="badge bg-secondary me-2">K</span>
+                            <span *ngFor="let step of getSteps(s)" class="badge bg-secondary me-2">
+                                {{ step }}
+                            </span>
+                        </p>
                         <p class="card-text">
                             Notes: 
                             <span *ngFor="let ni of s.noteIntervals" class="badge bg-secondary me-2" (click)="playNote(ni.note.name)">{{ ni.note.name }} <small>{{ni.note.alternativeName}}</small></span>

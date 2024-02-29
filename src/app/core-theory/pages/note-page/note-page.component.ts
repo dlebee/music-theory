@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { NoteService } from '../../services/note.service';
 import { AsyncPipe, NgFor, NgIf, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { INote } from '../../models/INote';
 import { NoteIntervalService } from '../../services/note-interval.service';
 import { INoteInterval } from '../../models/INoteInterval';
 import { ToneService } from '../../services/tone.service';
 import { ChordsService } from '../../services/chords.service';
 import { IChord } from '../../models/IChord';
-import { IScale } from '../../models/IScale';
+import { IScale, ScaleType } from '../../models/IScale';
 import { ScalesService } from '../../services/scales.service';
 
 @Component({
@@ -24,6 +24,8 @@ export class NotePageComponent implements OnInit{
   noteIntervals$?: Observable<INoteInterval[]>;
   chords$?: Observable<IChord[]>;
   scales$?: Observable<IScale[]>;
+
+  private _steps: { [key: string] : string[] } = {};
 
   constructor(private noteService: NoteService, 
     private noteIntervalService: NoteIntervalService,
@@ -41,6 +43,37 @@ export class NotePageComponent implements OnInit{
       this.chords$ = this.chordService.allChords(noteName);
       this.scales$ = this.scalesService.allScales(noteName);
     });
+  }
+
+  getSteps(scale: IScale) : string[] {
+    
+    let scaleKey = `${scale.definition.type}`;
+    if (this._steps[scaleKey])
+      return this._steps[scaleKey];
+
+    let steps = scale.definition.semitones.reduce((prev, cur) => {
+      let currentIndex = scale.definition.semitones.indexOf(cur);
+      if (currentIndex == 0)
+        return [];
+
+
+      let previousSemiTone = scale.definition.semitones[currentIndex-1];
+      let distance = cur - previousSemiTone;
+      
+      if (distance == 1)
+        prev.push("H");
+      else if (distance == 2)
+        prev.push("W");
+      else if (distance == 3)
+        prev.push("W+H");
+      else 
+        prev.push(distance.toString())
+
+      return prev.concat()
+    }, [] as string[]);
+
+    this._steps[scaleKey] = steps;
+    return this._steps[scaleKey];
   }
 
   playNote(noteName: string, nextOctave: boolean = false) {
@@ -82,6 +115,6 @@ export class NotePageComponent implements OnInit{
       }
 
       index--;
-    }, 750);
+    }, 500);
   }
 }
