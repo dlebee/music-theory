@@ -7,9 +7,9 @@ import { INote } from '../../models/INote';
 import { NoteIntervalService } from '../../services/note-interval.service';
 import { INoteInterval } from '../../models/INoteInterval';
 
-import * as Tone from 'tone'
+import { Synth } from 'tone/build/esm/instrument/Synth';
 
-const synth = new Tone.Synth().toDestination();
+const synth = new Synth().toDestination();
 
 @Component({
   selector: 'app-note-page',
