@@ -1,0 +1,40 @@
+<p>Select a Type of Chord</p>
+<select class="form-control" [(ngModel)]="currentType">
+    <option [value]="null">Choose a chord</option>
+    <option *ngFor="let d of definitions" [value]="d.type">
+        {{ d.title }}
+    </option>
+</select>
+
+<ng-container *ngIf="(chords$ | async) as chords">
+    <div class="row">
+        <div class="col col-4 mt-2" *ngFor="let chord of chords">
+            <div class="card">
+            
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {{ chord.key.name }}
+                        <span class="small">{{chord.key.alternativeName}}</span>
+    
+                        &nbsp;
+                        {{ chord.chordDefinition.title }}
+                    </h5>
+                    <ng-container *ngFor="let n of chord.notes">
+                        <span class="badge bg-secondary" (click)="playNote(n)">
+                            {{n.name}}
+                            <small>{{n.alternativeName}}</small>
+                        </span>&nbsp;
+                    </ng-container>
+
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col">
+                            <button (click)="playChord(chord)" class="btn btn-secondary w-100">Play</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
