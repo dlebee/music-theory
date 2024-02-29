@@ -34,6 +34,7 @@
                         &nbsp;
                         {{ chord.chordDefinition.title }}
                     </h5>
+                    <p>{{ chord.chordDefinition.description }}</p>
                     <ng-container *ngFor="let ni of chord.noteIntervals">
                         <span class="badge bg-secondary" (click)="playNote(ni.note)">
                             {{ni.note.name}}
