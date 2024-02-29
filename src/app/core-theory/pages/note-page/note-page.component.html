@@ -1,0 +1,50 @@
+<div *ngIf="(note$ | async) as note; else loading">
+    <div class="card mt-3">
+        <div class="card-body">
+            <h1 class="card-title">{{ note.name }}</h1>
+            <h2 class="card-subtitle mb-2 text-muted">{{ note.alternativeName }}</h2>
+            <div *ngIf="note.isNatural" class="badge bg-info">Is natural</div>
+
+            <button (click)="playNote(note.name)" class="btn btn-primary d-block btn-sm mt-3">Play note</button>
+        </div>
+    </div>
+
+    <ng-container *ngIf="(noteIntervals$ | async) as noteIntervals">
+        <h4 class="mt-5">Intervals</h4>
+        <table class="mt-2 table table-bordered">
+            <thead>
+                <tr>
+                    <th>Distance In half tones</th>
+                    <th>Note</th>
+                    <th>Interval Name</th>
+                    <th>Interval Symbol</th>
+                    <th>Natural note</th>
+                    <th>Play</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let ni of noteIntervals">
+                    <td>{{ ni.distanceInHalfTones }}</td>
+                    <td>
+                        {{ ni.note.name }}
+                        <span class="font-italic font-weight-light">{{ ni.note.alternativeName }}</span>
+                    </td>
+                    <td>{{ ni.name }}</td>
+                    <td>{{ ni.symbol }}</td>
+                    <td [class.font-weight-bold]="ni.note.isNatural">
+                        {{ ni.note.isNatural ? 'yes' : 'no' }}
+                    </td>
+                    <td>
+                        <button (click)="playNote(ni.note.name, ni.distanceInHalfTones == 12)" class="btn btn-secondary btn-sm">play</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </ng-container>
+</div>
+
+<ng-template #loading>
+    <div class="text-center mt-5">
+        <p>Loading...</p>
+    </div>
+</ng-template>

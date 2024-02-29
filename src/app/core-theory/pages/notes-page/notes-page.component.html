@@ -1,0 +1,19 @@
+<ng-container *ngIf="noteService.getNotes() | async as notes">
+    <div class="row">
+        <div *ngFor="let note of notes" class="col-md-4 mt-3">
+            <div class="card" [routerLink]="['/notes', note.name]">
+                <div class="card-body">
+                    <h5 class="card-title">{{ note.name }}</h5>
+                    <p class="card-text">
+                        <span class="small text-muted">{{ note.alternativeName }}</span>
+                    </p>
+                    <p class="card-text">
+                        <span *ngIf="note.isNatural" class="badge bg-info">is natural</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+   
+</ng-container>
