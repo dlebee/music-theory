@@ -7,6 +7,8 @@ import { INote } from '../../models/INote';
 import { NoteIntervalService } from '../../services/note-interval.service';
 import { INoteInterval } from '../../models/INoteInterval';
 import { ToneService } from '../../services/tone.service';
+import { ChordsService } from '../../services/chords.service';
+import { IChord } from '../../models/IChord';
 
 @Component({
   selector: 'app-note-page',
@@ -18,21 +20,29 @@ import { ToneService } from '../../services/tone.service';
 export class NotePageComponent implements OnInit{
   note$?: Observable<INote>;
   noteIntervals$?: Observable<INoteInterval[]>;
+  chords$?: Observable<IChord[]>;
 
   constructor(private noteService: NoteService, 
     private noteIntervalService: NoteIntervalService,
     private route: ActivatedRoute,
-    private tone: ToneService) {
+    private tone: ToneService,
+    private chordService: ChordsService) {
 
   }
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.note$ = this.noteService.getNote(params["note"]);
-      this.noteIntervals$ = this.noteIntervalService.getNoteIntervals(params["note"]);
+      const noteName = params["note"];
+      this.note$ = this.noteService.getNote(noteName);
+      this.noteIntervals$ = this.noteIntervalService.getNoteIntervals(noteName);
+      this.chords$ = this.chordService.allChords(noteName);
     });
   }
 
   playNote(noteName: string, nextOctave: boolean = false) {
     this.tone.playNote(noteName, nextOctave ? "5" : "4", "8n");
+  }
+
+  playChord(chord: IChord) {
+    this.tone.playChord(chord);
   }
 }

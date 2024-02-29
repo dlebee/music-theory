@@ -11,7 +11,7 @@
 
     <ng-container *ngIf="(noteIntervals$ | async) as noteIntervals">
         <h4 class="mt-5">Intervals</h4>
-        <table class="mt-2 table table-bordered">
+        <table class="mt-2 table table-sm table-bordered">
             <thead>
                 <tr>
                     <th>Distance In half tones</th>
@@ -39,6 +39,36 @@
                     </td>
                 </tr>
             </tbody>
+        </table>
+    </ng-container>
+
+    <ng-container *ngIf="(chords$ | async) as chords">
+        <h4 class="mt-5">Chords</h4>
+        <table class="table table-bordered table-sm">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Notes</th>
+                    <th>Play</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let c of chords">
+                    <td>{{ c.title }}</td>
+                    <td>
+                        <ng-container *ngFor="let n of c.notes">
+                            <span class="badge bg-secondary mr-2">
+                                {{ n.name }}
+                                <span class="font-weight-light">{{ n.alternativeName }}</span>
+                            </span>
+                            &nbsp;
+                        </ng-container>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-secondary" (click)="playChord(c)">Play</button>
+                    </td>
+                </tr>
+            </tbody>        
         </table>
     </ng-container>
 </div>

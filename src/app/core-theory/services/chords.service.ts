@@ -93,21 +93,20 @@ export class ChordsService {
     return of(this.definitions);
   }
 
-  majorChord(note: INote): Observable<IChord> {
+  majorChord(note: INote | string): Observable<IChord> {
     return this.chord(note, ChordTypes.Major);
   }
 
-  minorChord(note: INote): Observable<IChord> {
+  minorChord(note: INote | string): Observable<IChord> {
     return this.chord(note, ChordTypes.Minor);
   }
 
-  allChords(note: INote): Observable<IChord[]> {
-
+  allChords(note: INote | string): Observable<IChord[]> {
     let definitions = this.definitions.map(cd => this.chord(note, cd.type));
     return zip(...definitions);
   }
 
-  chord(note: INote, type: ChordTypes): Observable<IChord> {
+  chord(note: INote | string, type: ChordTypes): Observable<IChord> {
 
     let chordDefinition: IChordDefinition | undefined = this.definitions.find(t => t.type == type);
     if (!chordDefinition) {
@@ -123,9 +122,10 @@ export class ChordsService {
         });
 
         let chord: IChord = {
-          key: note,
+          key: notes[0],
           type: type,
           title: chordDefinition!.title,
+          chordDefinition: chordDefinition!,
           notes: notes
         };
 

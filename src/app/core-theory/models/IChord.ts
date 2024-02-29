@@ -28,4 +28,5 @@ export interface IChord
     title: string;
     key: INote;
     notes: INote[];
+    chordDefinition: IChordDefinition;
 }
