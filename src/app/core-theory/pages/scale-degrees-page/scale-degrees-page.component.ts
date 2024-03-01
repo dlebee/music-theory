@@ -9,13 +9,13 @@ import { IChord } from '../../models/IChord';
 import { ToneService } from '../../services/tone.service';
 
 @Component({
-  selector: 'app-scale-progression-page',
+  selector: 'app-scale-degrees-page',
   standalone: true,
   imports: [AsyncPipe, NgIf, NgFor, TitleCasePipe, RouterModule],
-  templateUrl: './scale-progression-page.component.html',
-  styleUrl: './scale-progression-page.component.scss'
+  templateUrl: './scale-degrees-page.component.html',
+  styleUrl: './scale-degrees-page.component.scss'
 })
-export class ScaleProgressionPageComponent implements OnInit {
+export class ScaleDegreesPageComponent implements OnInit {
 
 
   progression$?: Observable<IScaleDegrees>;
