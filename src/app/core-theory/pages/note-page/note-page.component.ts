@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NoteService } from '../../services/note.service';
 import { AsyncPipe, NgFor, NgIf, TitleCasePipe, UpperCasePipe } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { INote } from '../../models/INote';
 import { NoteIntervalService } from '../../services/note-interval.service';
@@ -15,7 +15,7 @@ import { ScalesService } from '../../services/scales.service';
 @Component({
   selector: 'app-note-page',
   standalone: true,
-  imports: [NgIf, AsyncPipe, NgFor, TitleCasePipe],
+  imports: [NgIf, AsyncPipe, NgFor, TitleCasePipe, RouterModule],
   templateUrl: './note-page.component.html',
   styleUrl: './note-page.component.scss'
 })

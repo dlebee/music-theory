@@ -86,7 +86,8 @@
                             <span *ngFor="let ni of s.noteIntervals" class="badge bg-secondary me-2" (click)="playNote(ni.note.name)">{{ ni.note.name }} <small>{{ni.note.alternativeName}}</small></span>
                         </p>
                         <button (click)="playScale(s)" class="btn btn-primary me-2">Play</button>
-                        <button (click)="playReverseScale(s)" class="btn btn-primary">Play Reverse</button>
+                        <button (click)="playReverseScale(s)" class="btn btn-primary me-2">Play Reverse</button>
+                        <button [routerLink]="['/scale', note.name, s.definition.type, 'progressions']" *ngIf="s.definition.progressions" class="btn btn-secondary">Progressions</button>
                     </div>
                 </div>
             </div>
