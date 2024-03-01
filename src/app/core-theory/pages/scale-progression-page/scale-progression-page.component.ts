@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ScaleType } from '../../models/IScale';
 import { Observable, switchMap, zip } from 'rxjs';
-import { ScaleProgressionService } from '../../services/scale-progression.service';
-import { IScaleProgression } from '../../models/IScaleProgression';
+import { ScaleDegreeService } from '../../services/scale-degree.service';
+import { IScaleDegrees } from '../../models/IScaleDegrees';
 import { AsyncPipe, JsonPipe, NgFor, NgIf, TitleCasePipe } from '@angular/common';
 import { IChord } from '../../models/IChord';
 import { ToneService } from '../../services/tone.service';
@@ -18,9 +18,9 @@ import { ToneService } from '../../services/tone.service';
 export class ScaleProgressionPageComponent implements OnInit {
 
 
-  progression$?: Observable<IScaleProgression>;
+  progression$?: Observable<IScaleDegrees>;
 
-  constructor(private route: ActivatedRoute, private scaleProgressionService: ScaleProgressionService, private toneService: ToneService) { }
+  constructor(private route: ActivatedRoute, private scaleProgressionService: ScaleDegreeService, private toneService: ToneService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {

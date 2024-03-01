@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ChordTypes, IChord, IChordDefinition, chords } from '../models/IChord';
 import { INote } from '../models/INote';
-import { Observable, map, of, throwError, zip } from 'rxjs';
+import { Observable, map, of, pipe, switchMap, throwError, zip } from 'rxjs';
 import { NoteIntervalService } from './note-interval.service';
 import { NoteService } from './note.service';
 import { safeSemiTone } from '../utils/note.util';
@@ -10,6 +10,7 @@ import { safeSemiTone } from '../utils/note.util';
   providedIn: 'root'
 })
 export class ChordsService {
+
 
   constructor(private noteService: NoteService, private noteIntervalService: NoteIntervalService) {
 
@@ -30,6 +31,34 @@ export class ChordsService {
   allChords(note: INote | string): Observable<IChord[]> {
     let definitions = chords.map(cd => this.chord(note, cd.type));
     return zip(...definitions);
+  }
+
+  findChords(arrayOfNotes: INote[][]) : Observable<Array<IChord | null>> {
+    const resolved = this.noteService.getNotes()
+      .pipe(
+        switchMap(notes => {
+
+          const notes$$ = notes.map(note => this.allChords(note));
+          return zip(...notes$$);
+        }),
+        map(chords => {
+          return chords.reduce((prev, curr) => prev.concat(curr))
+        }),
+        map(chords => {
+          return arrayOfNotes.map(potentialChord => {
+            return chords.find(chord => {
+              return potentialChord.map(t => t.name) == chord.noteIntervals.map(t => t.note.name)
+            }) ?? null;
+          });
+        })
+      );
+
+    return resolved;
+  }
+
+  findChord(notes: INote[]) : Observable<IChord | null> {
+    return this.findChords([notes])
+      .pipe(map(chords => chords[0]));
   }
 
   chord(note: INote | string, type: ChordTypes): Observable<IChord> {
