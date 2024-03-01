@@ -18,7 +18,7 @@ import { ToneService } from '../../services/tone.service';
 export class ScaleProgressionPageComponent implements OnInit {
 
 
-  progression$?: Observable<IScaleProgression>;
+  progression$?: Observable<IScaleProgression[]>;
 
   constructor(private route: ActivatedRoute, private scaleProgressionService: ScaleProgressionService, private toneService: ToneService) { }
 
@@ -26,7 +26,7 @@ export class ScaleProgressionPageComponent implements OnInit {
     this.route.params.subscribe(params => {
       const noteName = params["note"] as string;
       const scaleType = params["type"] as ScaleType;
-      this.progression$ = this.scaleProgressionService.getProgression(noteName, scaleType);
+      this.progression$ = this.scaleProgressionService.getProgressions(noteName, scaleType);
     });
   }
 

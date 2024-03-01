@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ScalesService } from './scales.service';
 import { ChordsService } from './chords.service';
-import { ScaleType } from '../models/IScale';
-import { map, switchMap, zip } from 'rxjs';
+import { IScale, IScaleProgressionDefinition, ScaleType } from '../models/IScale';
+import { Observable, map, of, switchMap, zip } from 'rxjs';
 import { IScaleProgression } from '../models/IScaleProgression';
 
 @Injectable({
@@ -15,31 +15,44 @@ export class ScaleProgressionService {
 
   }
 
-  getProgression(note: string, scaleType: ScaleType) {
+  protected getProgression(scale: IScale, definition: IScaleProgressionDefinition) : Observable<IScaleProgression> {
+    
+    let chordObservables$$ = [];
+    for(let i = 0 ; i < scale.noteIntervals.length && i < definition.chords.length; i++) {
+      let scaleNote = scale.noteIntervals[i].note.name;
+      let progressionChordType = definition.chords[i];
+      if (progressionChordType) {
+        chordObservables$$.push(this.chordService.chord(scaleNote, progressionChordType));
+      } else {
+        chordObservables$$.push(of(null));
+      }
+    }
+
+    return zip(...chordObservables$$)
+      .pipe(
+        map(chords => {
+          let result: IScaleProgression= {
+            scale: scale,
+            chords: chords,
+            definition: definition
+          };
+
+          return result;
+        })
+      );
+  }
+
+
+  getProgressions(note: string, scaleType: ScaleType) : Observable<IScaleProgression[]> {
     return this.scaleService.scale(note, scaleType)
       .pipe(
         switchMap(scale => {
-          if (scale.definition.progressions) {
 
-            let chordObservables$$ = [];
-            for(let i = 0 ; i < scale.noteIntervals.length && i < scale.definition.progressions.length; i++) {
-              let scaleNote = scale.noteIntervals[i].note.name;
-              let progressionChordType = scale.definition.progressions[i];
-              chordObservables$$.push(this.chordService.chord(scaleNote, progressionChordType));
-            }
-
-            return zip(...chordObservables$$).pipe(
-              map(chords => {
-                return <IScaleProgression>{
-                  scale: scale,
-                  chords: chords
-                }
-              })
-            );
+            let progressions$$ = scale.definition.progressions.map(progression => {
+              return this.getProgression(scale, progression);
+            });
             
-          } else {
-            throw new Error(`this scale does not have a progression`);
-          }
+           return zip(...progressions$$);
         })
       )
   } 
