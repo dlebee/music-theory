@@ -25,7 +25,7 @@
                         <p class="card-text">
                             Distance: {{ ni.distanceInHalfTones }}
                         </p>
-                        <button (click)="playNote(ni.note.name)" class="btn btn-primary">Play</button>
+                        <button (click)="playNote(ni.note.name, ni.distanceInHalfTones == 12)" class="btn btn-primary">Play</button>
                     </div>
                 </div>
             </div>
