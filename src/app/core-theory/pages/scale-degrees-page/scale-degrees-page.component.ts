@@ -11,14 +11,14 @@ import { ToneService } from '../../services/tone.service';
 @Component({
   selector: 'app-scale-degrees-page',
   standalone: true,
-  imports: [AsyncPipe, NgIf, NgFor, TitleCasePipe, RouterModule],
+  imports: [AsyncPipe, NgIf, NgFor, TitleCasePipe, RouterModule, JsonPipe],
   templateUrl: './scale-degrees-page.component.html',
   styleUrl: './scale-degrees-page.component.scss'
 })
 export class ScaleDegreesPageComponent implements OnInit {
 
 
-  progression$?: Observable<IScaleDegrees>;
+  degrees$?: Observable<IScaleDegrees>;
 
   constructor(private route: ActivatedRoute, private scaleProgressionService: ScaleDegreeService, private toneService: ToneService) { }
 
@@ -26,7 +26,7 @@ export class ScaleDegreesPageComponent implements OnInit {
     this.route.params.subscribe(params => {
       const noteName = params["note"] as string;
       const scaleType = params["type"] as ScaleType;
-      this.progression$ = this.scaleProgressionService.getProgression(noteName, scaleType);
+      this.degrees$ = this.scaleProgressionService.getProgression(noteName, scaleType);
     });
   }
 
