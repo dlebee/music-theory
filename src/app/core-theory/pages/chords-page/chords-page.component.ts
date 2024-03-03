@@ -1,4 +1,4 @@
-import { Component, NgModule } from '@angular/core';
+import { Component, HostListener, NgModule } from '@angular/core';
 import { ChordTypes, IChord, IChordDefinition, chords } from '../../models/IChord';
 import { AsyncPipe, JsonPipe, NgFor, NgIf } from '@angular/common';
 import { FormsModule, NgModel } from '@angular/forms';
@@ -7,63 +7,42 @@ import { ChordsService } from '../../services/chords.service';
 import { NoteService } from '../../services/note.service';
 import { ToneService } from '../../services/tone.service';
 import { INote } from '../../models/INote';
+import { InlineNoteComponent } from '../../components/inline-note/inline-note.component';
+import { ChordComponent } from '../../components/chord/chord.component';
 
 @Component({
   selector: 'app-chords-page',
   standalone: true,
-  imports: [NgFor, NgIf, AsyncPipe, JsonPipe, FormsModule],
+  imports: [NgFor, NgIf, AsyncPipe, JsonPipe, FormsModule, InlineNoteComponent, ChordComponent],
   templateUrl: './chords-page.component.html',
   styleUrl: './chords-page.component.scss'
 })
 export class ChordsPageComponent {
 
-  _currentTypes: ChordTypes[] = [];
-  _currentNotes: string[] = [];
-  chords$?: Observable<IChord[]> = of([]);
-  notes$: Observable<INote[]>;
+  selectedChords: IChord[] = [];
+  chords$?: Observable<IChord[]>;
 
-  constructor(private chordService: ChordsService, private noteService: NoteService,
+  constructor(chordService: ChordsService,
     private tone: ToneService) {
       
-    this.notes$ = noteService.getNotes();
+    this.chords$ = chordService.everyChords();
   }
 
   get definitions() {
     return chords;
   }
 
-  get currentTypes() {
-    return this._currentTypes;
-  }
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
 
-  get currentNotes() {
-    return this._currentNotes;
-  }
+    let number = Number.parseInt(event.key);
+    if (Number.isNaN(number)) {
+      return;
+    } 
 
-  playNote(note: INote) {
-    this.tone.playNote(note.name, "4", "8n");
-  }
-
-  playChord(chord: IChord) {
-    this.tone.playChord(chord);
-  }
-
-  set currentNotes(values: string[]) {
-    this._currentNotes = values;
-    this.refreshChords();
-  }
-
-  set currentTypes(values: ChordTypes[]) {
-    this._currentTypes = values;
-    this.refreshChords();
-  }
-
-  refreshChords() {
-    let temp = this.currentNotes.map(note => {
-      return this.currentTypes.map(chordType => {
-        return this.chordService.chord(note, chordType);
-      });
-    }).reduce((prev, cur) => prev.concat(cur));
-    this.chords$ = zip(... temp);
+    let index = number-1;
+    if (index < this.selectedChords.length) {
+      this.tone.playChord(this.selectedChords[index]);
+    }
   }
 }

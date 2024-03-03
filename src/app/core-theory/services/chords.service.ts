@@ -34,27 +34,32 @@ export class ChordsService {
     return zip(...definitions);
   }
 
+  everyChords() {
+    return this.noteService.getNotes()
+    .pipe(
+      switchMap(notes => {
+
+        const notes$$ = notes.map(note => this.allChords(note));
+        return zip(...notes$$);
+      }),
+      map(chords => {
+        return chords.reduce((prev, curr) => prev.concat(curr))
+      })
+    );
+  }
+
   findChords(arrayOfNotes: INote[][]) : Observable<Array<IChord | null>> {
-    const resolved = this.noteService.getNotes()
-      .pipe(
-        switchMap(notes => {
 
-          const notes$$ = notes.map(note => this.allChords(note));
-          return zip(...notes$$);
-        }),
-        map(chords => {
-          return chords.reduce((prev, curr) => prev.concat(curr))
-        }),
-        map(chords => {
-          return arrayOfNotes.map(potentialChord => {
-            return chords.find(chord => {
-              return arraySameValues(potentialChord.map(t => t.name), chord.noteIntervals.map(t => t.note.name))
-            }) ?? null;
-          });
-        })
-      );
+    return this.everyChords().pipe(
+      map(chords => {
+        return arrayOfNotes.map(potentialChord => {
+          return chords.find(chord => {
+            return arraySameValues(potentialChord.map(t => t.name), chord.noteIntervals.map(t => t.note.name))
+          }) ?? null;
+        });
+      })
+    );
 
-    return resolved;
   }
 
   findChord(notes: INote[]) : Observable<IChord | null> {
