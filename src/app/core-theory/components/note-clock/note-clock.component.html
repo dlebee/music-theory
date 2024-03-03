@@ -1,35 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="400px" height="400px;" viewBox="-160 -160 320 320" *ngIf="intervals && intervals.length == 13">
+<svg xmlns="http://www.w3.org/2000/svg" width="400px" height="400px;" viewBox="-160 -160 320 320"
+    *ngIf="intervals && intervals.length == 13">
 
     <g font-size="10" font-family="'Sancreek',cursive" text-anchor="middle">
-        <text dy="-1em" transform="translate(0 -120)">{{intervals[0].name}}/{{intervals[12].name}}</text>
-        <text dy="-1em" transform="rotate(30),translate(0,-120),rotate(-30)">{{intervals[1].name}}</text>
-        <text dy="-1em" transform="rotate(60),translate(0,-120),rotate(-60)">{{intervals[2].name}}</text>
-        <text dy="-1em" transform="rotate(90),translate(0,-120),rotate(-90)">{{intervals[3].name}} </text>
-        <text dy="-1em" transform="rotate(120),translate(0,-120),rotate(-120)">{{intervals[4].name}} </text>
-        <text dy="-1em" transform="rotate(150),translate(0,-120),rotate(-150)">{{intervals[5].name}}  </text>
-        <text dy="-1em" transform="rotate(180),translate(0,-120),rotate(-180)">{{intervals[6].name}} </text>
-        <text dy="-1em" transform="rotate(210),translate(0,-120),rotate(-210)">{{intervals[7].name}} </text>
-        <text dy="-1em" transform="rotate(240),translate(0,-120),rotate(-240)">{{intervals[8].name}} </text>
-        <text dy="-1em" transform="rotate(270),translate(0,-120),rotate(-270)">{{intervals[9].name}} </text>
-        <text dy="-1em" transform="rotate(300),translate(0,-120),rotate(-300)">{{intervals[10].name}} </text>
-        <text dy="-1em" transform="rotate(330),translate(0,-120),rotate(-330)">{{intervals[11].name}} </text>
-      </g>
-    
-    <g font-size="15" font-family="'Sancreek',cursive" text-anchor="middle">
-      <text (click)="playNote(intervals[0].note.name)" dy="0.35em" transform="translate(0 -120)">{{intervals[0].note.name}} {{intervals[0].note.alternativeName}}</text>
-      <text (click)="playNote(intervals[1].note.name)" dy="0.35em" transform="rotate(30),translate(0,-120),rotate(-30)">{{intervals[1].note.name}} {{intervals[1].note.alternativeName}}</text>
-      <text (click)="playNote(intervals[2].note.name)" dy="0.35em" transform="rotate(60),translate(0,-120),rotate(-60)">{{intervals[2].note.name}} {{intervals[2].note.alternativeName}}</text>
-      <text (click)="playNote(intervals[3].note.name)" dy="0.35em" transform="rotate(90),translate(0,-120),rotate(-90)">{{intervals[3].note.name}}   {{ intervals[3].note.alternativeName}} </text>
-      <text (click)="playNote(intervals[4].note.name)" dy="0.35em" transform="rotate(120),translate(0,-120),rotate(-120)">{{intervals[4].note.name}} {{ intervals[4].note.alternativeName}} </text>
-      <text (click)="playNote(intervals[5].note.name)" dy="0.35em" transform="rotate(150),translate(0,-120),rotate(-150)">{{intervals[5].note.name}} {{ intervals[5].note.alternativeName}} </text>
-      <text (click)="playNote(intervals[6].note.name)" dy="0.35em" transform="rotate(180),translate(0,-120),rotate(-180)">{{intervals[6].note.name}} {{ intervals[6].note.alternativeName}} </text>
-      <text (click)="playNote(intervals[7].note.name)" dy="0.35em" transform="rotate(210),translate(0,-120),rotate(-210)">{{intervals[7].note.name}} {{ intervals[7].note.alternativeName}} </text>
-      <text (click)="playNote(intervals[8].note.name)" dy="0.35em" transform="rotate(240),translate(0,-120),rotate(-240)">{{intervals[8].note.name}} {{ intervals[8].note.alternativeName}} </text>
-      <text (click)="playNote(intervals[9].note.name)" dy="0.35em" transform="rotate(270),translate(0,-120),rotate(-270)">{{intervals[9].note.name}} {{ intervals[9].note.alternativeName}} </text>
-      <text (click)="playNote(intervals[10].note.name)" dy="0.35em" transform="rotate(300),translate(0,-120),rotate(-300)">{{intervals[10].note.name}}{{ intervals[10].note.alternativeName}} </text>
-      <text (click)="playNote(intervals[11].note.name)" dy="0.35em" transform="rotate(330),translate(0,-120),rotate(-330)">{{intervals[11].note.name}}{{ intervals[11].note.alternativeName}} </text>
+        <text *ngFor="let interval of intervals; let i = index; let isFirst = first ; let isLast = last" dy="-1em"
+            [attr.transform]="'rotate(' + (i * 30) + '),translate(0,-120),rotate(' + (-i * 30) + ')'"
+            [textContent]="(isFirst || isLast) ? 'tonic/octave' : interval.name"></text>
     </g>
-   
-    
-  
-  </svg>
+
+    <g font-size="15" font-family="'Sancreek',cursive" text-anchor="middle">
+        <text *ngFor="let interval of intervals; let i = index;" (click)="playNote(interval.note.name)" dy="0.35em"
+            [attr.transform]="'rotate(' + (i * 30) + '),translate(0,-120),rotate(' + (-i * 30) + ')'">
+        {{ interval.note.name }} {{ interval.note.alternativeName }}</text>
+    </g>
+
+</svg>
