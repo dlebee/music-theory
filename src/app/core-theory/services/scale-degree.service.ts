@@ -24,10 +24,10 @@ export class ScaleDegreeService {
 
           const DEGREE_PATTERN = 2;
           let triads = [];
-          for(let i = 0 ; i < scale.definition.semitones.length; i++) {
+          for(let i = 0 ; i < scale.definition.semitones.length-1; i++) {
             let firstIndex = i;
-            let secondIndex = nextIndexWithRollOver(i, 2, scale.definition.semitones.length);
-            let thirdIndex = nextIndexWithRollOver(secondIndex, 2, scale.definition.semitones.length);
+            let secondIndex = nextIndexWithRollOver(i, 2, scale.definition.semitones.length-1);
+            let thirdIndex = nextIndexWithRollOver(secondIndex, 2, scale.definition.semitones.length-1);
             let triad = [
               scale.noteIntervals[firstIndex].note,
               scale.noteIntervals[secondIndex].note,
@@ -36,8 +36,6 @@ export class ScaleDegreeService {
 
             triads.push(triad);
           }
-
-          console.log(triads);
 
           return this.chordService.findChords(triads)
             .pipe(

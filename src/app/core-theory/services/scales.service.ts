@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { INote } from '../models/INote';
 import { Observable, combineLatest, map, zip } from 'rxjs';
-import { IScale, ScaleType, categories, scales } from '../models/IScale';
+import { IScale, IScaleDefinition, ScaleType, categories, scales } from '../models/IScale';
 import { NoteIntervalService } from './note-interval.service';
 import { NoteService } from './note.service';
 import { safeSemiTone } from '../utils/note.util';
@@ -39,9 +39,36 @@ export class ScalesService {
           key: noteIntervals[0].note,
           category: scaleCategory,
           definition: scaleDefinition,
+          steps: this.getSteps(scaleDefinition),
           noteIntervals: scaleNotes
         };
       })
     );
+  }
+
+  getSteps(definition: IScaleDefinition) : string[] {
+
+    let steps = definition.semitones.reduce((prev, cur) => {
+      let currentIndex = definition.semitones.indexOf(cur);
+      if (currentIndex == 0)
+        return [];
+
+
+      let previousSemiTone = definition.semitones[currentIndex-1];
+      let distance = cur - previousSemiTone;
+      
+      if (distance == 1)
+        prev.push("H");
+      else if (distance == 2)
+        prev.push("W");
+      else if (distance == 3)
+        prev.push("W+H");
+      else 
+        prev.push(distance.toString())
+
+      return prev.concat()
+    }, [] as string[]);
+
+    return steps;
   }
 }

@@ -47,29 +47,29 @@ export interface IScaleCategory {
 export const scales: IScaleDefinition[] = [
     { 
         name: "Major Scale (Ionian)", 
-        semitones: [0, 2, 4, 5, 7, 9, 11], 
+        semitones: [0, 2, 4, 5, 7, 9, 11, 12], 
         category: ScaleCategoryTypes.MAJOR, 
         type: ScaleType.IONIAN
     },
     { 
         name: "Natural Minor Scale (Aeolian)", 
-        semitones: [0, 2, 3, 5, 7, 8, 10], 
+        semitones: [0, 2, 3, 5, 7, 8, 10, 12], 
         category: ScaleCategoryTypes.NATURAL_MINOR, 
         type: ScaleType.AEOLIAN
     },
-    { name: "Harmonic Minor Scale", semitones: [0, 2, 3, 5, 7, 8, 11], category: ScaleCategoryTypes.HARMONIC_MINOR, type: ScaleType.HARMONIC_MINOR },
-    { name: "Melodic Minor Scale (Ascending)", semitones: [0, 2, 3, 5, 7, 9, 11], category: ScaleCategoryTypes.MELODIC_MINOR, type: ScaleType.MELODIC_MINOR_ASCENDING },
-    { name: "Melodic Minor Scale (Descending)", semitones: [0, 2, 3, 5, 7, 8, 10], category: ScaleCategoryTypes.MELODIC_MINOR, type: ScaleType.MELODIC_MINOR_DESCENDING },
-    { name: "Major Pentatonic Scale", semitones: [0, 2, 4, 7, 9], category: ScaleCategoryTypes.PENTATONIC, type: ScaleType.MAJOR_PENTATONIC },
-    { name: "Minor Pentatonic Scale", semitones: [0, 3, 5, 7, 10], category: ScaleCategoryTypes.PENTATONIC, type: ScaleType.MINOR_PENTATONIC },
-    { name: "Blues Scale", semitones: [0, 3, 5, 6, 7, 10], category: ScaleCategoryTypes.BLUES, type: ScaleType.BLUES },
-    { name: "Whole Tone Scale", semitones: [0, 2, 4, 6, 8, 10], category: ScaleCategoryTypes.WHOLE_TONE, type: ScaleType.WHOLE_TONE },
-    { name: "Hijaz Scale", semitones: [0, 1, 5, 6, 10, 11], category: ScaleCategoryTypes.ARABIC, type: ScaleType.HIJAZ },
-    { name: "Bayati Scale", semitones: [0, 1, 4, 5, 8, 9], category: ScaleCategoryTypes.ARABIC, type: ScaleType.BAYATI },
-    { name: "Rast Scale", semitones: [0, 2, 5, 7, 10], category: ScaleCategoryTypes.ARABIC, type: ScaleType.RAST },
-    { name: "Phrygian Mode", semitones: [0, 1, 3, 5, 7, 8, 10], category: ScaleCategoryTypes.SPANISH, type: ScaleType.PHRYGIAN_MODE },
-    { name: "Spanish Gypsy Scale", semitones: [0, 1, 4, 5, 7, 8, 10], category: ScaleCategoryTypes.SPANISH, type: ScaleType.SPANISH_GYPSY },
-    { name: "Phrygian Dominant Scale", semitones: [0, 1, 4, 5, 7, 8, 10], category: ScaleCategoryTypes.SPANISH, type: ScaleType.PHRYGIAN_DOMINANT }
+    { name: "Harmonic Minor Scale", semitones: [0, 2, 3, 5, 7, 8, 11, 12], category: ScaleCategoryTypes.HARMONIC_MINOR, type: ScaleType.HARMONIC_MINOR },
+    { name: "Melodic Minor Scale (Ascending)", semitones: [0, 2, 3, 5, 7, 9, 11, 12], category: ScaleCategoryTypes.MELODIC_MINOR, type: ScaleType.MELODIC_MINOR_ASCENDING },
+    { name: "Melodic Minor Scale (Descending)", semitones: [0, 2, 3, 5, 7, 8, 10, 12], category: ScaleCategoryTypes.MELODIC_MINOR, type: ScaleType.MELODIC_MINOR_DESCENDING },
+    { name: "Major Pentatonic Scale", semitones: [0, 2, 4, 7, 9, 12], category: ScaleCategoryTypes.PENTATONIC, type: ScaleType.MAJOR_PENTATONIC },
+    { name: "Minor Pentatonic Scale", semitones: [0, 3, 5, 7, 10, 12], category: ScaleCategoryTypes.PENTATONIC, type: ScaleType.MINOR_PENTATONIC },
+    { name: "Blues Scale", semitones: [0, 3, 5, 6, 7, 10, 12], category: ScaleCategoryTypes.BLUES, type: ScaleType.BLUES },
+    { name: "Whole Tone Scale", semitones: [0, 2, 4, 6, 8, 10, 12], category: ScaleCategoryTypes.WHOLE_TONE, type: ScaleType.WHOLE_TONE },
+    { name: "Hijaz Scale", semitones: [0, 1, 5, 6, 10, 11, 12], category: ScaleCategoryTypes.ARABIC, type: ScaleType.HIJAZ },
+    { name: "Bayati Scale", semitones: [0, 1, 4, 5, 8, 9, 12], category: ScaleCategoryTypes.ARABIC, type: ScaleType.BAYATI },
+    { name: "Rast Scale", semitones: [0, 2, 5, 7, 10, 12], category: ScaleCategoryTypes.ARABIC, type: ScaleType.RAST },
+    { name: "Phrygian Mode", semitones: [0, 1, 3, 5, 7, 8, 10, 12], category: ScaleCategoryTypes.SPANISH, type: ScaleType.PHRYGIAN_MODE },
+    { name: "Spanish Gypsy Scale", semitones: [0, 1, 4, 5, 7, 8, 10, 12], category: ScaleCategoryTypes.SPANISH, type: ScaleType.SPANISH_GYPSY },
+    { name: "Phrygian Dominant Scale", semitones: [0, 1, 4, 5, 7, 8, 10, 12], category: ScaleCategoryTypes.SPANISH, type: ScaleType.PHRYGIAN_DOMINANT }
 ];
 
 export const categories: IScaleCategory[] = [
@@ -88,5 +88,6 @@ export interface IScale {
     key: INote,
     noteIntervals: INoteInterval[];
     definition: IScaleDefinition,
+    steps: string[],
     category: IScaleCategory
 }

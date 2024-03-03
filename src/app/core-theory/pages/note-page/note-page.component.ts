@@ -32,8 +32,6 @@ export class NotePageComponent implements OnInit{
   chords$?: Observable<IChord[]>;
   scales$?: Observable<IScale[]>;
 
-  private _steps: { [key: string] : string[] } = {};
-
   constructor(private noteService: NoteService, 
     private noteIntervalService: NoteIntervalService,
     private route: ActivatedRoute,
@@ -52,37 +50,6 @@ export class NotePageComponent implements OnInit{
     });
   }
 
-  getSteps(scale: IScale) : string[] {
-    
-    let scaleKey = `${scale.definition.type}`;
-    if (this._steps[scaleKey])
-      return this._steps[scaleKey];
-
-    let steps = scale.definition.semitones.reduce((prev, cur) => {
-      let currentIndex = scale.definition.semitones.indexOf(cur);
-      if (currentIndex == 0)
-        return [];
-
-
-      let previousSemiTone = scale.definition.semitones[currentIndex-1];
-      let distance = cur - previousSemiTone;
-      
-      if (distance == 1)
-        prev.push("H");
-      else if (distance == 2)
-        prev.push("W");
-      else if (distance == 3)
-        prev.push("W+H");
-      else 
-        prev.push(distance.toString())
-
-      return prev.concat()
-    }, [] as string[]);
-
-    this._steps[scaleKey] = steps;
-    return this._steps[scaleKey];
-  }
-
   playNote(noteName: string, nextOctave: boolean = false) {
     this.tone.playNote(noteName, nextOctave ? "5" : "4", "8n");
   }
@@ -97,9 +64,8 @@ export class NotePageComponent implements OnInit{
       
       if (index < scale.noteIntervals.length) {
         let note = scale.noteIntervals[index].note;
-        this.playNote(note.name, false);
+        this.playNote(note.name, index == scale.noteIntervals.length-1);
       } else {
-        this.playNote(scale.key.name, true);
         clearInterval(handler);
       }
 
@@ -113,12 +79,10 @@ export class NotePageComponent implements OnInit{
       
       if (index < scale.noteIntervals.length) {
         let note = scale.noteIntervals[index].note;
-        this.playNote(note.name, false);
+        this.playNote(note.name, index == scale.noteIntervals.length - 1);
         if (index == 0) {
           clearInterval(handler);
         }
-      } else {
-        this.playNote(scale.key.name, true);
       }
 
       index--;
