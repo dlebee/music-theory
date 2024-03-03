@@ -5,6 +5,7 @@ import { Observable, map, of, pipe, switchMap, throwError, zip } from 'rxjs';
 import { NoteIntervalService } from './note-interval.service';
 import { NoteService } from './note.service';
 import { safeSemiTone } from '../utils/note.util';
+import { arraySameValues } from '../utils/array.util';
 
 @Injectable({
   providedIn: 'root'
@@ -47,7 +48,7 @@ export class ChordsService {
         map(chords => {
           return arrayOfNotes.map(potentialChord => {
             return chords.find(chord => {
-              return potentialChord.map(t => t.name) == chord.noteIntervals.map(t => t.note.name)
+              return arraySameValues(potentialChord.map(t => t.name), chord.noteIntervals.map(t => t.note.name))
             }) ?? null;
           });
         })

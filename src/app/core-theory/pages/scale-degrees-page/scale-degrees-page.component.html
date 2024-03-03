@@ -1,5 +1,57 @@
 <ng-container *ngIf="degrees$ | async as degrees">
-    <pre>
-        {{ degrees | json }}
-    </pre>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+            <li class="breadcrumb-item"><a [routerLink]="['/notes', degrees.scale.key.name]">{{ degrees.scale.key.name
+                    }} Note</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Degrees</li>
+        </ol>
+    </nav>
+
+
+
+    <h1>{{ degrees.scale.key.name }} {{ degrees.scale.key.alternativeName }}</h1>
+    <h2>Degrees</h2>
+
+    <table class="table table-bordered">
+        <tr>
+            <th class="text-center" *ngFor="let ni of degrees.scale.noteIntervals; let i = index">
+                {{ getRomanNumeral(i+1) }}
+            </th>
+        </tr>
+        <tr>
+            <td class="text-center" *ngFor="let ni of degrees.scale.noteIntervals">
+                <span class="badge bg-secondary text-white" (click)="playNote(ni.note.name)">{{ ni.note.name }} {{ni.note.alternativeName}}</span>
+            </td>
+        </tr>
+    </table>
+
+    <div class="row mt-3">
+        <div class="col-12">
+            <h4>Chords</h4>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 p-2" *ngFor="let c of degrees.chords">
+            <div class="card mb-3 h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ c.key.name }} {{ c.key.alternativeName }} - {{ c.title }}</h5>
+                    <p class="text-muted">{{ c.chordDefinition.description }}</p>
+                    <p class="card-text">
+                        Intervals:
+                        <span *ngFor="let ni of c.noteIntervals" class="badge bg-secondary me-2">{{ ni.name }}</span>
+                    </p>
+                    <p class="card-text">
+                        Notes:
+                        <span *ngFor="let ni of c.noteIntervals" class="badge bg-secondary me-2"
+                            (click)="playNote(ni.note.name)">{{ ni.note.name }}
+                            <small>{{ni.note.alternativeName}}</small></span>
+                    </p>
+
+                </div>
+                <div class="card-footer">
+                    <button (click)="playChord(c)" class="btn btn-primary">Play</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </ng-container>

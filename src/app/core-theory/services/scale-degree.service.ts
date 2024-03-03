@@ -5,6 +5,7 @@ import { ScaleType } from '../models/IScale';
 import { first, map, switchMap, zip } from 'rxjs';
 import { IScaleDegrees } from '../models/IScaleDegrees';
 import { chords } from '../models/IChord';
+import { nextIndexWithRollOver } from '../utils/note.util';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,7 @@ export class ScaleDegreeService {
             triads.push(triad);
           }
 
+          console.log(triads);
 
           return this.chordService.findChords(triads)
             .pipe(
@@ -51,14 +53,5 @@ export class ScaleDegreeService {
   } 
 }
 
-function nextIndexWithRollOver(start: number, iteration: number, length: number) {
-  let result = start;
-  for(let i = 0, result = start; i < iteration; i++) {
-    if (result > length)
-      result = 0;
-    else
-      result++;
-  }
-  return result;
-}
+
 
