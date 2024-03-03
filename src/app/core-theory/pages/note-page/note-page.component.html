@@ -21,6 +21,7 @@
         <div class="container d-flex justify-content-center align-items-center">
             <app-note-clock [intervals]="noteIntervals"></app-note-clock>
         </div>
+
     </ng-container>
 
     <ng-container *ngIf="(chords$ | async) as chords">
@@ -29,26 +30,8 @@
                 <h4>Chords</h4>
             </div>
             <div class="col-12 col-md-6 col-lg-4 p-2" *ngFor="let c of chords">
-                <div class="card mb-3 h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ c.title }}</h5>
-                        <p class="text-muted">{{ c.chordDefinition.description }}</p>
-                        <p class="card-text">
-                            Intervals:
-                            <span *ngFor="let ni of c.noteIntervals" class="badge bg-secondary me-2">{{ ni.name
-                                }}</span>
-                        </p>
-                        <p class="card-text">
-                            Notes:
-                            <span *ngFor="let ni of c.noteIntervals" class="badge bg-secondary me-2"
-                                (click)="playNote(ni.note.name)">{{ ni.note.name }}
-                                <small>{{ni.note.alternativeName}}</small></span>
-                        </p>
-
-                    </div>
-                    <div class="card-footer">
-                        <button (click)="playChord(c)" class="btn btn-primary">Play</button>
-                    </div>
+                <div class="mb-3 h-100">
+                    <app-chord [chord]="c"></app-chord>
                 </div>
             </div>
         </div>

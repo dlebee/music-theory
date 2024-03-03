@@ -1,15 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="400px" height="400px;" viewBox="-160 -160 320 320"
+<svg xmlns="http://www.w3.org/2000/svg" height="350px" viewBox="-160 -160 320 320"
     *ngIf="intervals && intervals.length == 13">
 
     <g font-size="10" font-family="'Sancreek',cursive" text-anchor="middle">
-        <text *ngFor="let interval of intervals; let i = index; let isFirst = first ; let isLast = last" dy="-1em"
+        <ng-container *ngFor="let interval of intervals; let i = index; let isFirst = first ; let isLast = last" >
+            <text dy="-1em" *ngIf="!isLast"
             [attr.transform]="'rotate(' + (i * 30) + '),translate(0,-120),rotate(' + (-i * 30) + ')'"
-            [textContent]="(isFirst || isLast) ? 'tonic/octave' : interval.name"></text>
+            [textContent]="isFirst ? 'tonic/octave' : interval.name"
+            [style.fill]="selectedIntervalColor(interval.name)"></text>
+        </ng-container>
+        
     </g>
 
     <g font-size="15" font-family="'Sancreek',cursive" text-anchor="middle">
         <text *ngFor="let interval of intervals; let i = index;" (click)="playNote(interval.note.name)" dy="0.35em"
-            [attr.transform]="'rotate(' + (i * 30) + '),translate(0,-120),rotate(' + (-i * 30) + ')'">
+            [attr.transform]="'rotate(' + (i * 30) + '),translate(0,-120),rotate(' + (-i * 30) + ')'"
+            [style.fill]="selectedNoteColor(interval.note)"
+            >
         {{ interval.note.name }} {{ interval.note.alternativeName }}</text>
     </g>
 

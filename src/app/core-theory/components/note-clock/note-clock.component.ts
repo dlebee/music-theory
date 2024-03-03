@@ -3,6 +3,7 @@ import { INoteInterval } from '../../models/INoteInterval';
 import { NgFor, NgIf } from '@angular/common';
 import { ToneService } from '../../services/tone.service';
 import { InlineNoteComponent } from '../inline-note/inline-note.component';
+import { INote } from '../../models/INote';
 
 @Component({
   selector: 'app-note-clock',
@@ -18,8 +19,17 @@ export class NoteClockComponent {
   }
 
   @Input() intervals: INoteInterval[] = [];
+  @Input() selectedIntervals: INoteInterval[] = [];
 
   playNote(note: string) {
     this.tone.playNote(note, "4", "8n");
+  }
+
+  selectedNoteColor(note: INote) {
+    return this.selectedIntervals.map(t => t.note.name).includes(note.name) ? 'blue' : 'black';
+  }
+
+  selectedIntervalColor(intervalName: string) {
+    return this.selectedIntervals.map(t => t.name).includes(intervalName) ? 'blue' : 'black';
   }
 }

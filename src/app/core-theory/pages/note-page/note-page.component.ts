@@ -13,11 +13,16 @@ import { IScale, ScaleType } from '../../models/IScale';
 import { ScalesService } from '../../services/scales.service';
 import { NoteClockComponent } from '../../components/note-clock/note-clock.component';
 import { InlineNoteComponent } from '../../components/inline-note/inline-note.component';
+import { ChordComponent } from '../../components/chord/chord.component';
 
 @Component({
   selector: 'app-note-page',
   standalone: true,
-  imports: [NgIf, AsyncPipe, NgFor, TitleCasePipe, RouterModule, NoteClockComponent, InlineNoteComponent],
+  imports: [NgIf, AsyncPipe, NgFor, TitleCasePipe, RouterModule, 
+    NoteClockComponent, 
+    InlineNoteComponent,
+    ChordComponent
+  ],
   templateUrl: './note-page.component.html',
   styleUrl: './note-page.component.scss'
 })
