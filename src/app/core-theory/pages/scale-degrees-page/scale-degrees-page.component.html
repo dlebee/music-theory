@@ -1,0 +1,61 @@
+<ng-container *ngIf="degrees$ | async as degrees">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+            <li class="breadcrumb-item"><a [routerLink]="['/notes', degrees.scale.key.name]">{{ degrees.scale.key.name
+                    }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ degrees.scale.definition.name }} Degrees</li>
+        </ol>
+    </nav>
+
+
+
+    <h1>{{ degrees.scale.key.name }} {{ degrees.scale.key.alternativeName }} - {{ degrees.scale.definition.name }}</h1>
+    <h2>Degrees</h2>
+
+    <div class="alert alert-info">
+        Use your keyboard to play the chords of the degrees from 1 to {{degrees.scale.noteIntervals.length }}
+    </div>
+
+    <table class="table table-bordered">
+        <tr>
+            <th class="text-center" *ngFor="let ni of degrees.scale.noteIntervals; let i = index">
+                {{ getRomanNumeral(i+1) }}
+            </th>
+        </tr>
+        <tr>
+            <td class="text-center" *ngFor="let ni of degrees.scale.noteIntervals">
+                <span class="badge bg-secondary text-white" (click)="playNote(ni.note.name)">{{ ni.note.name }} {{ni.note.alternativeName}}</span>
+            </td>
+        </tr>
+    </table>
+
+    <div class="row mt-3">
+        <div class="col-12">
+            <h4>Chords</h4>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 p-2" *ngFor="let c of degrees.chords; let i = index">
+            <div class="card mb-3 h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><span class="text-muted">{{ getRomanNumeral(i+1) }}.</span> {{ c.key.name }} {{ c.key.alternativeName }} - {{ c.title }}</h5>
+                    <p class="text-muted">{{ c.chordDefinition.description }}</p>
+                    <p class="card-text">
+                        Intervals:
+                        <span *ngFor="let ni of c.noteIntervals" class="badge bg-secondary me-2">{{ ni.name }}</span>
+                    </p>
+                    <p class="card-text">
+                        Notes:
+                        <span *ngFor="let ni of c.noteIntervals" class="badge bg-secondary me-2"
+                            (click)="playNote(ni.note.name)">{{ ni.note.name }}
+                            <small>{{ni.note.alternativeName}}</small></span>
+                    </p>
+
+                </div>
+                <div class="card-footer">
+                    <button (click)="playChord(c)" class="btn btn-primary">Play</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</ng-container>

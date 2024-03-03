@@ -36,8 +36,7 @@ export interface IScaleDefinition {
     name: string;
     semitones: number[];
     category: ScaleCategoryTypes;
-    type: ScaleType;
-    progressions?: ChordTypes[]
+    type: ScaleType
 }
 
 export interface IScaleCategory {
@@ -50,31 +49,13 @@ export const scales: IScaleDefinition[] = [
         name: "Major Scale (Ionian)", 
         semitones: [0, 2, 4, 5, 7, 9, 11], 
         category: ScaleCategoryTypes.MAJOR, 
-        type: ScaleType.IONIAN,
-        progressions: [
-            ChordTypes.Major, 
-            ChordTypes.Minor, 
-            ChordTypes.Minor, 
-            ChordTypes.Major, 
-            ChordTypes.Major, 
-            ChordTypes.Minor, 
-            ChordTypes.Deminished
-        ]
+        type: ScaleType.IONIAN
     },
     { 
         name: "Natural Minor Scale (Aeolian)", 
         semitones: [0, 2, 3, 5, 7, 8, 10], 
         category: ScaleCategoryTypes.NATURAL_MINOR, 
-        type: ScaleType.AEOLIAN,
-        progressions: [
-            ChordTypes.Minor,
-            ChordTypes.Deminished,
-            ChordTypes.Major,
-            ChordTypes.Minor,
-            ChordTypes.Minor,
-            ChordTypes.Major,
-            ChordTypes.Major
-        ]
+        type: ScaleType.AEOLIAN
     },
     { name: "Harmonic Minor Scale", semitones: [0, 2, 3, 5, 7, 8, 11], category: ScaleCategoryTypes.HARMONIC_MINOR, type: ScaleType.HARMONIC_MINOR },
     { name: "Melodic Minor Scale (Ascending)", semitones: [0, 2, 3, 5, 7, 9, 11], category: ScaleCategoryTypes.MELODIC_MINOR, type: ScaleType.MELODIC_MINOR_ASCENDING },

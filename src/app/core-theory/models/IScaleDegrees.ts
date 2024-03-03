@@ -1,7 +1,7 @@
 import { IChord } from "./IChord";
 import { IScale } from "./IScale";
 
-export interface IScaleProgression {
+export interface IScaleDegrees {
     scale: IScale,
     chords: IChord[]
 }
