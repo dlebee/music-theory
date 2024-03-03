@@ -3,14 +3,14 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
             <li class="breadcrumb-item"><a [routerLink]="['/notes', degrees.scale.key.name]">{{ degrees.scale.key.name
-                    }} Note</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Degrees</li>
+                    }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ degrees.scale.definition.name }} Degrees</li>
         </ol>
     </nav>
 
 
 
-    <h1>{{ degrees.scale.key.name }} {{ degrees.scale.key.alternativeName }}</h1>
+    <h1>{{ degrees.scale.key.name }} {{ degrees.scale.key.alternativeName }} - {{ degrees.scale.definition.name }}</h1>
     <h2>Degrees</h2>
 
     <div class="alert alert-info">
