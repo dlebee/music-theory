@@ -1,0 +1,35 @@
+<div class="card h-100" *ngIf="scale">
+    <div class="card-body">
+        <h5 class="card-title">{{ scale.definition.name }}</h5>
+        <h6 class="card-subtitle">{{ scale.category.name }}</h6>
+        <p class="card-text mt-2">
+            Intervals:
+            <span *ngFor="let ni of scale.noteIntervals" class="badge bg-secondary me-2">{{ ni.name
+                }}</span>
+        </p>
+        <p class="card-text mt-2">
+            Steps:
+            <span class="badge bg-secondary me-2">K</span>
+            <span *ngFor="let step of scale.steps" class="badge bg-secondary me-2">
+                {{ step }}
+            </span>
+        </p>
+        <p class="card-text">
+            Notes:
+            <span *ngFor="let ni of scale.noteIntervals" class="badge bg-secondary me-2"
+                (click)="playNote(ni.note.name)">{{ ni.note.name }}
+                <small>{{ni.note.alternativeName}}</small></span>
+        </p>
+        
+        <ng-container *ngIf="intervals$ | async as intervals">
+            <app-note-clock [intervals]="intervals" [selectedIntervals]="scale.noteIntervals"></app-note-clock>
+        </ng-container>
+        
+    </div>
+    <div class="card-footer">
+        <button (click)="play()" class="btn btn-primary me-2">Play</button>
+        <button (click)="playReverse()" class="btn btn-primary me-2">Play Reverse</button>
+        <button [routerLink]="['/scale', scale.key.name, scale.definition.type, 'degrees']"
+            class="btn btn-secondary">Degrees</button>
+    </div>
+</div>

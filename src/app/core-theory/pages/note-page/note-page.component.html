@@ -40,35 +40,8 @@
             <div class="col-12">
                 <h4>Scales</h4>
             </div>
-            <div class="col-12 col-md-6 col-lg-4" *ngFor="let s of scales">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ s.definition.name }}</h5>
-                        <h6 class="card-subtitle">{{ s.category.name }}</h6>
-                        <p class="card-text mt-2">
-                            Intervals:
-                            <span *ngFor="let ni of s.noteIntervals" class="badge bg-secondary me-2">{{ ni.name
-                                }}</span>
-                        </p>
-                        <p class="card-text mt-2">
-                            Steps:
-                            <span class="badge bg-secondary me-2">K</span>
-                            <span *ngFor="let step of s.steps" class="badge bg-secondary me-2">
-                                {{ step }}
-                            </span>
-                        </p>
-                        <p class="card-text">
-                            Notes:
-                            <span *ngFor="let ni of s.noteIntervals" class="badge bg-secondary me-2"
-                                (click)="playNote(ni.note.name)">{{ ni.note.name }}
-                                <small>{{ni.note.alternativeName}}</small></span>
-                        </p>
-                        <button (click)="playScale(s)" class="btn btn-primary me-2">Play</button>
-                        <button (click)="playReverseScale(s)" class="btn btn-primary me-2">Play Reverse</button>
-                        <button [routerLink]="['/scale', note.name, s.definition.type, 'degrees']"
-                            class="btn btn-secondary">Degrees</button>
-                    </div>
-                </div>
+            <div class="col-12 col-md-6 col-lg-4 p-2" *ngFor="let s of scales">
+                <app-scale [scale]="s"></app-scale>
             </div>
         </div>
     </ng-container>

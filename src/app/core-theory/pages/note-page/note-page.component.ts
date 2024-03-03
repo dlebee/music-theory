@@ -14,6 +14,7 @@ import { ScalesService } from '../../services/scales.service';
 import { NoteClockComponent } from '../../components/note-clock/note-clock.component';
 import { InlineNoteComponent } from '../../components/inline-note/inline-note.component';
 import { ChordComponent } from '../../components/chord/chord.component';
+import { ScaleComponent } from '../../components/scale/scale.component';
 
 @Component({
   selector: 'app-note-page',
@@ -21,7 +22,8 @@ import { ChordComponent } from '../../components/chord/chord.component';
   imports: [NgIf, AsyncPipe, NgFor, TitleCasePipe, RouterModule, 
     NoteClockComponent, 
     InlineNoteComponent,
-    ChordComponent
+    ChordComponent,
+    ScaleComponent
   ],
   templateUrl: './note-page.component.html',
   styleUrl: './note-page.component.scss'
@@ -52,40 +54,5 @@ export class NotePageComponent implements OnInit{
 
   playNote(noteName: string, nextOctave: boolean = false) {
     this.tone.playNote(noteName, nextOctave ? "5" : "4", "8n");
-  }
-
-  playChord(chord: IChord) {
-    this.tone.playChord(chord);
-  }
-
-  playScale(scale: IScale) {
-    let index = 0;
-    let handler = setInterval(() => {
-      
-      if (index < scale.noteIntervals.length) {
-        let note = scale.noteIntervals[index].note;
-        this.playNote(note.name, index == scale.noteIntervals.length-1);
-      } else {
-        clearInterval(handler);
-      }
-
-      index++;
-    }, 500);
-  }
-
-  playReverseScale(scale: IScale) {
-    let index = scale.noteIntervals.length;
-    let handler = setInterval(() => {
-      
-      if (index < scale.noteIntervals.length) {
-        let note = scale.noteIntervals[index].note;
-        this.playNote(note.name, index == scale.noteIntervals.length - 1);
-        if (index == 0) {
-          clearInterval(handler);
-        }
-      }
-
-      index--;
-    }, 500);
   }
 }

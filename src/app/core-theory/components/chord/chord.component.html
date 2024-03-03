@@ -4,14 +4,14 @@
             <h4><app-inline-note class="me-2" [note]="chord.key"></app-inline-note>{{ chord.title }}</h4>
             <p class="text-muted">{{ chord.chordDefinition.description }}</p>
 
-            <!-- <p>
-            Intervals:
-            <span *ngFor="let ni of chord.noteIntervals" class="badge bg-secondary me-2">{{ ni.name }}</span>
-        </p>
-        <p>
-            Notes:
-            <app-note *ngFor="let ni of chord.noteIntervals" class="me-2" [note]="ni.note"></app-note>
-        </p> -->
+            <p>
+                Intervals:
+                <span *ngFor="let ni of chord.noteIntervals" class="badge bg-secondary me-2">{{ ni.name }}</span>
+            </p>
+            <p>
+                Notes:
+                <app-note *ngFor="let ni of chord.noteIntervals" class="me-2" [note]="ni.note"></app-note>
+            </p>
 
             <ng-container *ngIf="intervals$ | async as intervals">
                 <app-note-clock [intervals]="intervals" [selectedIntervals]="chord.noteIntervals"></app-note-clock>
