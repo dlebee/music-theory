@@ -25,6 +25,23 @@ export class NoteClockComponent {
     this.tone.playNote(note, "4", "8n");
   }
 
+  findSelectedIntervalsWithNext()  {
+    let result: { start: number, end: number }[] = [];
+
+    for (let i = 0; i < this.intervals.length; i++) {
+      if (this.isSelected(this.intervals[i])) {
+        let j = i + 1;
+        while (j < this.intervals.length && !this.isSelected(this.intervals[j])) {
+          j++;
+        }
+        const end = j < this.intervals.length ? j : 0; // Wrap around to the beginning if no next interval is found
+        result.push({ start: i, end: end });
+      }
+    }
+
+    return result;
+  }
+
   selectedNoteColor(note: INote) {
     return this.selectedIntervals.map(t => t.note.name).includes(note.name) ? 'blue' : 'black';
   }
