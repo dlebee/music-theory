@@ -1,4 +1,12 @@
 <div *ngIf="(note$ | async) as note; else loading">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ note.name }} {{ note.alternativeName }}</li>
+        </ol>
+    </nav>
+
     <div class="card mt-3">
         <div class="card-body">
             <h1 class="card-title">{{ note.name }}</h1>
