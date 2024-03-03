@@ -7,11 +7,13 @@
         </ol>
     </nav>
 
-    <div class="mt-3">
-        <h1 class="card-title">Note: <app-inline-note [note]="note"></app-inline-note></h1>
+    <div class="mt-3 text-center">
+        <h1><app-inline-note [note]="note"></app-inline-note></h1>
         <div *ngIf="note.isNatural" class="badge bg-info">Is natural</div>
 
-        <button (click)="playNote(note.name)" class="btn btn-primary d-block btn-sm mt-3">Play note</button>
+        <div>
+            <button (click)="playNote(note.name)" class="btn btn-primary btn-sm mt-3">Play note</button>
+        </div>
     </div>
 
     <ng-container *ngIf="(noteIntervals$ | async) as noteIntervals">
