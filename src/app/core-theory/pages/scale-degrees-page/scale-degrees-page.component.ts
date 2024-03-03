@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ScaleType } from '../../models/IScale';
-import { Observable, switchMap, zip } from 'rxjs';
+import { Observable, map, switchMap, zip } from 'rxjs';
 import { ScaleDegreeService } from '../../services/scale-degree.service';
 import { IScaleDegrees } from '../../models/IScaleDegrees';
 import { AsyncPipe, JsonPipe, NgFor, NgIf, TitleCasePipe } from '@angular/common';
@@ -20,6 +20,7 @@ export class ScaleDegreesPageComponent implements OnInit {
 
 
   degrees$?: Observable<IScaleDegrees>;
+  private degree: IScaleDegrees | null = null;
 
   constructor(private route: ActivatedRoute, private scaleProgressionService: ScaleDegreeService, private toneService: ToneService) { }
 
@@ -27,7 +28,12 @@ export class ScaleDegreesPageComponent implements OnInit {
     this.route.params.subscribe(params => {
       const noteName = params["note"] as string;
       const scaleType = params["type"] as ScaleType;
-      this.degrees$ = this.scaleProgressionService.getProgression(noteName, scaleType);
+      this.degrees$ = this.scaleProgressionService.getProgression(noteName, scaleType).pipe(
+        map(degree => {
+          this.degree = degree;
+          return degree;
+        })
+      )
     });
   }
 
@@ -41,5 +47,21 @@ export class ScaleDegreesPageComponent implements OnInit {
 
   playChord(chord: IChord) {
     this.toneService.playChord(chord);
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (this.degree) {
+      let numberOfSemiTones = this.degree.scale.noteIntervals.length;
+      let number = Number.parseInt(event.key);
+      if (Number.isNaN(number)) {
+        return;
+      } 
+
+      let index = number-1;
+      if (index < numberOfSemiTones) {
+        this.playChord(this.degree.chords[index]);
+      }
+    }
   }
 }

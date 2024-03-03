@@ -13,6 +13,10 @@
     <h1>{{ degrees.scale.key.name }} {{ degrees.scale.key.alternativeName }}</h1>
     <h2>Degrees</h2>
 
+    <div class="alert alert-info">
+        Use your keyboard to play the chords of the degrees from 1 to {{degrees.scale.noteIntervals.length }}
+    </div>
+
     <table class="table table-bordered">
         <tr>
             <th class="text-center" *ngFor="let ni of degrees.scale.noteIntervals; let i = index">
@@ -30,10 +34,10 @@
         <div class="col-12">
             <h4>Chords</h4>
         </div>
-        <div class="col-12 col-md-6 col-lg-4 p-2" *ngFor="let c of degrees.chords">
+        <div class="col-12 col-md-6 col-lg-4 p-2" *ngFor="let c of degrees.chords; let i = index">
             <div class="card mb-3 h-100">
                 <div class="card-body">
-                    <h5 class="card-title">{{ c.key.name }} {{ c.key.alternativeName }} - {{ c.title }}</h5>
+                    <h5 class="card-title"><span class="text-muted">{{ getRomanNumeral(i+1) }}.</span> {{ c.key.name }} {{ c.key.alternativeName }} - {{ c.title }}</h5>
                     <p class="text-muted">{{ c.chordDefinition.description }}</p>
                     <p class="card-text">
                         Intervals:
