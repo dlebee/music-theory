@@ -32,4 +32,20 @@ export class NoteClockComponent {
   selectedIntervalColor(intervalName: string) {
     return this.selectedIntervals.map(t => t.name).includes(intervalName) ? 'blue' : 'black';
   }
+
+  isSelected(noteInterval: INoteInterval) {
+    return this.selectedIntervals.find(t => t.distanceInHalfTones == noteInterval.distanceInHalfTones) ? true : false;
+  }
+
+  calculateX(index: number): number {
+    const radius = 120; // Radius of the circle
+    const angle = (index * 30) * (Math.PI / 180); // Convert angle to radians
+    return radius * Math.sin(angle); // Calculate X coordinate
+  }
+  
+  calculateY(index: number): number {
+    const radius = 120; // Radius of the circle
+    const angle = (index * 30) * (Math.PI / 180); // Convert angle to radians
+    return -radius * Math.cos(angle); // Calculate Y coordinate (negative to invert the circle)
+  } 
 }
