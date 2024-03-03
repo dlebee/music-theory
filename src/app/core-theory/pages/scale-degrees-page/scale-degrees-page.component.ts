@@ -8,11 +8,14 @@ import { AsyncPipe, JsonPipe, NgFor, NgIf, TitleCasePipe } from '@angular/common
 import { IChord } from '../../models/IChord';
 import { ToneService } from '../../services/tone.service';
 import { getRomanNumeral } from '../../utils/number.util';
+import { InlineNoteComponent } from '../../components/inline-note/inline-note.component';
+import { ChordComponent } from '../../components/chord/chord.component';
+import { ScaleComponent } from '../../components/scale/scale.component';
 
 @Component({
   selector: 'app-scale-degrees-page',
   standalone: true,
-  imports: [AsyncPipe, NgIf, NgFor, TitleCasePipe, RouterModule, JsonPipe],
+  imports: [AsyncPipe, NgIf, NgFor, TitleCasePipe, RouterModule, JsonPipe, InlineNoteComponent, ChordComponent, ScaleComponent],
   templateUrl: './scale-degrees-page.component.html',
   styleUrl: './scale-degrees-page.component.scss'
 })

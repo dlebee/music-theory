@@ -2,16 +2,13 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-            <li class="breadcrumb-item"><a [routerLink]="['/notes', degrees.scale.key.name]">{{ degrees.scale.key.name
-                    }}</a></li>
+            <li class="breadcrumb-item"><a [routerLink]="['/notes', degrees.scale.key.name]"><app-inline-note [note]="degrees.scale.key"></app-inline-note></a></li>
             <li class="breadcrumb-item">{{ degrees.scale.definition.name }}</li>
             <li class="breadcrumb-item active" aria-current="page">Degrees</li>
         </ol>
     </nav>
 
-
-
-    <h1>{{ degrees.scale.key.name }} {{ degrees.scale.key.alternativeName }} - {{ degrees.scale.definition.name }}</h1>
+    <h1><app-inline-note [note]="degrees.scale.key"></app-inline-note> - {{ degrees.scale.definition.name }}</h1>
     <h2>Degrees</h2>
 
     <div class="alert alert-info">
@@ -30,8 +27,7 @@
         <tr>
             <ng-container *ngFor="let ni of degrees.scale.noteIntervals; let isLast = last">
                 <td class="text-center" *ngIf="!isLast">
-                    <span class="badge bg-secondary text-white" (click)="playNote(ni.note.name)">{{ ni.note.name }}
-                        {{ni.note.alternativeName}}</span>
+                    <app-inline-note [note]="ni.note"></app-inline-note>
                 </td>
             </ng-container>
 
@@ -43,27 +39,7 @@
             <h4>Chords</h4>
         </div>
         <div class="col-12 col-md-6 col-lg-4 p-2" *ngFor="let c of degrees.chords; let i = index">
-            <div class="card mb-3 h-100">
-                <div class="card-body">
-                    <h5 class="card-title"><span class="text-muted">{{ getRomanNumeral(i+1) }}.</span> {{ c.key.name }}
-                        {{ c.key.alternativeName }} - {{ c.title }}</h5>
-                    <p class="text-muted">{{ c.chordDefinition.description }}</p>
-                    <p class="card-text">
-                        Intervals:
-                        <span *ngFor="let ni of c.noteIntervals" class="badge bg-secondary me-2">{{ ni.name }}</span>
-                    </p>
-                    <p class="card-text">
-                        Notes:
-                        <span *ngFor="let ni of c.noteIntervals" class="badge bg-secondary me-2"
-                            (click)="playNote(ni.note.name)">{{ ni.note.name }}
-                            <small>{{ni.note.alternativeName}}</small></span>
-                    </p>
-
-                </div>
-                <div class="card-footer">
-                    <button (click)="playChord(c)" class="btn btn-primary">Play</button>
-                </div>
-            </div>
+            <app-chord [chord]="c"></app-chord>
         </div>
     </div>
 
