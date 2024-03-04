@@ -45,10 +45,4 @@ export class ChordsPageComponent {
       this.tone.playChord(this.selectedChords[index]);
     }
   }
-
-  playChords() {
-    for (const cord of this.selectedChords) {
-      this.tone.playChord(cord);
-    }
-  }
 }
