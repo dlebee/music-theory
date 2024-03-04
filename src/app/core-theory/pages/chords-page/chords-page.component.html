@@ -3,20 +3,22 @@
 </div>
 
 <div class="row">
-    <div class="col-md-6">
-        <h1>Select Chords</h1>
-        <select class="form-control" [(ngModel)]="selectedChords" multiple>
-            <option *ngFor="let chord of chords$ | async" [value]="chord">
-                <app-inline-note [note]="chord.key"></app-inline-note> &nbsp;
-                {{ chord.chordDefinition.title }}
-            </option>
-        </select>
+  <div class="col">
+    <h1>Select Chords</h1>
+    <div class="d-inline">
+      <select class="form-control" [(ngModel)]="selectedChords" multiple>
+        <option *ngFor="let chord of chords$ | async" [value]="chord">
+          <app-inline-note [note]="chord.key"></app-inline-note> &nbsp;
+          {{ chord.chordDefinition.title }}
+        </option>
+      </select>
     </div>
+  </div>
 </div>
 
 
 <div class="row">
-    <div class="col-12 col-md-6 col-lg-4 p-2 p-2" *ngFor="let chord of selectedChords">
-        <app-chord [chord]="chord"></app-chord>
-    </div>
+  <div class="col-12 col-md-6 col-lg-4 p-2 p-2" *ngFor="let chord of selectedChords">
+    <app-chord [chord]="chord"></app-chord>
+  </div>
 </div>

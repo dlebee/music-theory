@@ -25,3 +25,11 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## Logo & favicon generated using https://favicon.io/
+
+- Font Title: Leckerli One
+- Font Author: Copyright (c) 2011 Gesine Todt (www.gesine-todt.de hallo@gesine-todt.de), with Reserved Font Names "Leckerli"
+- Font Source: https://fonts.gstatic.com/s/leckerlione/v20/V8mCoQH8VCsNttEnxnGQ-1itLZxcBtItFw.ttf
+- Font License: SIL Open Font License, 1.1 (http://scripts.sil.org/OFL))
+

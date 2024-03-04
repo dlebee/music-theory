@@ -19,12 +19,13 @@ import { ChordComponent } from '../../components/chord/chord.component';
 })
 export class ChordsPageComponent {
 
+
   selectedChords: IChord[] = [];
   chords$?: Observable<IChord[]>;
 
   constructor(chordService: ChordsService,
     private tone: ToneService) {
-      
+
     this.chords$ = chordService.everyChords();
   }
 
@@ -34,15 +35,20 @@ export class ChordsPageComponent {
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-
     let number = Number.parseInt(event.key);
     if (Number.isNaN(number)) {
       return;
-    } 
+    }
 
     let index = number-1;
     if (index < this.selectedChords.length) {
       this.tone.playChord(this.selectedChords[index]);
+    }
+  }
+
+  playChords() {
+    for (const cord of this.selectedChords) {
+      this.tone.playChord(cord);
     }
   }
 }

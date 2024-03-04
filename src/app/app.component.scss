@@ -1,0 +1,40 @@
+.everything {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+
+.github-logo {
+  text-decoration: none;
+  color: inherit;
+  font-size: 0.9em;
+  color: darkgrey;
+
+  svg {
+    color: lightgrey;
+  }
+}
+
+.github-logo:hover {
+  color: #133337;
+
+  svg {
+    color: #133337;
+  }
+}
+
+footer {
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    min-height: 40px;
+  }
+}
+
