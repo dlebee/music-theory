@@ -1,0 +1,19 @@
+.github-logo {
+    text-decoration: none;
+    color: inherit;
+    font-size: 0.9em;
+
+    svg {
+        color: #133337;
+        opacity: 0.5;
+        transition: opacity 1s;
+    }
+}
+
+.github-logo:hover {
+    color: #133337;
+
+    svg {
+        opacity: 1;
+    }
+}
