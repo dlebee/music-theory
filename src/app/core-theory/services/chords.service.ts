@@ -59,7 +59,6 @@ export class ChordsService {
         });
       })
     );
-
   }
 
   findChord(notes: INote[]) : Observable<IChord | null> {
