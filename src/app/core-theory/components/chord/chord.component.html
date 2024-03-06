@@ -12,6 +12,9 @@
                 Notes:
                 <app-note *ngFor="let ni of chord.noteIntervals" class="me-2" [note]="ni.note"></app-note>
             </p>
+            <p>
+                Styles: <span class="badge bg-primary me-2" *ngFor="let s of chord.chordDefinition.styles">{{ s }}</span>
+            </p>
 
             <ng-container *ngIf="intervals$ | async as intervals">
                 <app-note-clock [intervals]="intervals" [selectedIntervals]="chord.noteIntervals"></app-note-clock>
