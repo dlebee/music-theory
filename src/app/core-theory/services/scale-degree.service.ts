@@ -17,7 +17,7 @@ export class ScaleDegreeService {
 
   }
 
-  getProgression(note: string, scaleType: ScaleType) {
+  getDegrees(note: string, scaleType: ScaleType) {
     return this.scaleService.scale(note, scaleType)
       .pipe(
         switchMap(scale => {

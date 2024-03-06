@@ -31,7 +31,7 @@ export class ScaleDegreesPageComponent implements OnInit {
     this.route.params.subscribe(params => {
       const noteName = params["note"] as string;
       const scaleType = params["type"] as ScaleType;
-      this.degrees$ = this.scaleProgressionService.getProgression(noteName, scaleType).pipe(
+      this.degrees$ = this.scaleProgressionService.getDegrees(noteName, scaleType).pipe(
         map(degree => {
           this.degree = degree;
           return degree;
