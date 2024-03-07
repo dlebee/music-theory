@@ -18,33 +18,68 @@
 
     <ng-container *ngIf="(noteIntervals$ | async) as noteIntervals">
         <h4 class="mt-4 text-center">Intervals</h4>
-        <div class="container d-flex justify-content-center align-items-center">
-            <app-note-clock [intervals]="noteIntervals" [selectedIntervals]="[noteIntervals[0]]"></app-note-clock>
-        </div>
 
+        <ul ngbNav #nav="ngbNav" class="nav-tabs">
+            <li ngbNavItem>
+                <button ngbNavLink>Clock</button>
+                <ng-template ngbNavContent>
+                    <div class="container d-flex justify-content-center align-items-center">
+                        <app-note-clock [intervals]="noteIntervals"
+                            [selectedIntervals]="[noteIntervals[0]]"></app-note-clock>
+                    </div>
+                </ng-template>
+            </li>
+            <li ngbNavItem>
+                <button ngbNavLink>Spiral</button>
+                <ng-template ngbNavContent>
+                    <div class="mt-4 container d-flex justify-content-center align-items-center">
+                        <app-note-spiral [intervals]="noteIntervals"></app-note-spiral>
+                    </div>
+                </ng-template>
+            </li>
+        </ul>
+        <div [ngbNavOutlet]="nav"></div>
     </ng-container>
 
-    <ng-container *ngIf="(chords$ | async) as chords">
-        <div class="row mt-3">
-            <div class="col-12">
-                <h4>Chords</h4>
-            </div>
-            <div class="col-12 col-md-6 col-lg-4 p-2" *ngFor="let c of chords">
-                <app-chord [chord]="c"></app-chord>
+    <div ngbAccordion>
+        <div ngbAccordionItem>
+            <h2 ngbAccordionHeader>
+                <button ngbAccordionButton>Chords</button>
+            </h2>
+            <div ngbAccordionCollapse>
+                <div ngbAccordionBody>
+                    <ng-template>
+                        <ng-container *ngIf="(chords$ | async) as chords">
+                            <div class="row">
+                                <div class="col-12 col-md-6 col-lg-4 p-2" *ngFor="let c of chords">
+                                    <app-chord [chord]="c"></app-chord>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-template>
+                </div>
             </div>
         </div>
-    </ng-container>
+        <div ngbAccordionItem>
+            <h2 ngbAccordionHeader>
+                <button ngbAccordionButton>Scales</button>
+            </h2>
+            <div ngbAccordionCollapse>
+                <div ngbAccordionBody>
+                    <ng-template>
+                        <ng-container *ngIf="(scales$ | async) as scales">
+                            <div class="row">
+                                <div class="col-12 col-md-6 col-lg-4 p-2" *ngFor="let s of scales">
+                                    <app-scale [scale]="s"></app-scale>
+                                </div>
+                            </div>
 
-    <ng-container *ngIf="(scales$ | async) as scales">
-        <div class="row mt-3">
-            <div class="col-12">
-                <h4>Scales</h4>
-            </div>
-            <div class="col-12 col-md-6 col-lg-4 p-2" *ngFor="let s of scales">
-                <app-scale [scale]="s"></app-scale>
+                        </ng-container>
+                    </ng-template>
+                </div>
             </div>
         </div>
-    </ng-container>
+    </div>
 </div>
 
 <ng-template #loading>
