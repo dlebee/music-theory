@@ -1,13 +1,21 @@
-<svg [attr.width]="(octaves.length * 40 + 80 + 2) * 2" [attr.height]="(octaves.length * 40 + 80 + 2) * 2"
-    xmlns="http://www.w3.org/2000/svg">
+<svg [attr.viewBox]="'0 0 ' + (octaves.length * 40 + 80 + 2) * 2 + ' ' + (octaves.length * 40 + 80 + 2) * 2"
+     [attr.width]="800"
+     xmlns="http://www.w3.org/2000/svg">
     <!-- Large circle in the center -->
-    <circle [attr.cx]="octaves.length * 40 + 80 + 2" [attr.cy]="octaves.length * 40 + 80 + 2" r="50" fill="none" />
+    <circle [attr.cx]="octaves.length * 40 + 80 + 2" 
+            [attr.cy]="octaves.length * 40 + 80 + 2" 
+            r="50" 
+            fill="none" />
 
     <!-- Smaller circles around the center -->
     <ng-container *ngFor="let octave of octaves; let i = index">
-        <circle [attr.cx]="octaves.length * 40 + 80 + 2" [attr.cy]="octaves.length * 40 + 80 + 2" [attr.r]="i * 40 + 80"
-            fill="none" stroke="black" stroke-width="0.5" />
-
+        <circle [attr.cx]="octaves.length * 40 + 80 + 2" 
+                [attr.cy]="octaves.length * 40 + 80 + 2" 
+                [attr.r]="i * 40 + 80"
+                fill="none" 
+                stroke="black" 
+                stroke-width="0.5" />
+        
         <!-- Calculate position of notes -->
         <ng-container *ngFor="let interval of octave.intervals; let j = index">
 
