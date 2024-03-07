@@ -15,6 +15,8 @@ import { NoteClockComponent } from '../../components/note-clock/note-clock.compo
 import { InlineNoteComponent } from '../../components/inline-note/inline-note.component';
 import { ChordComponent } from '../../components/chord/chord.component';
 import { ScaleComponent } from '../../components/scale/scale.component';
+import { NoteSpiralComponent } from '../../components/note-spiral/note-spiral.component';
+import { NgbModule, NgbNav, NgbNavItem, NgbNavOutlet } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-note-page',
@@ -23,7 +25,9 @@ import { ScaleComponent } from '../../components/scale/scale.component';
     NoteClockComponent, 
     InlineNoteComponent,
     ChordComponent,
-    ScaleComponent
+    ScaleComponent,
+    NoteSpiralComponent,
+    NgbModule
   ],
   templateUrl: './note-page.component.html',
   styleUrl: './note-page.component.scss'

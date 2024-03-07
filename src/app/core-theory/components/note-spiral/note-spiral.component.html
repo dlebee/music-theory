@@ -1,0 +1,33 @@
+<svg [attr.width]="(octaves.length * 40 + 80 + 2) * 2" [attr.height]="(octaves.length * 40 + 80 + 2) * 2"
+    xmlns="http://www.w3.org/2000/svg">
+    <!-- Large circle in the center -->
+    <circle [attr.cx]="octaves.length * 40 + 80 + 2" [attr.cy]="octaves.length * 40 + 80 + 2" r="50" fill="none" />
+
+    <!-- Smaller circles around the center -->
+    <ng-container *ngFor="let octave of octaves; let i = index">
+        <circle [attr.cx]="octaves.length * 40 + 80 + 2" [attr.cy]="octaves.length * 40 + 80 + 2" [attr.r]="i * 40 + 80"
+            fill="none" stroke="black" stroke-width="0.5" />
+
+        <!-- Calculate position of notes -->
+        <ng-container *ngFor="let interval of octave.intervals; let j = index">
+
+            <text *ngIf="j < 12" (click)="playNote(interval.note.name, octave.octave)"
+                [attr.x]="(octaves.length * 40 + 80 + 2) + cos(pi / 2 - 2 * pi / 12 * j) * (i * 40 + 80)"
+                [attr.y]="(octaves.length * 40 + 80 + 2) - sin(pi / 2 - 2 * pi / 12 * j) * (i * 40 + 80)"
+                text-anchor="middle" 
+                alignment-baseline="middle"
+                [style.fill]="j == 0 ? 'blue' : 'black'">
+                {{ interval.note.name }} {{ octave.octave }}
+            </text>
+
+            <text *ngIf="octave.octave == 0 && j < 12" 
+                font-size="7"
+                [attr.x]="(octaves.length * 40 + 80 + 2) + cos(pi / 2 - 2 * pi / 12 * j) * (i * 40 + 80)"
+                [attr.y]="((octaves.length * 40 + 80 + 2) - sin(pi / 2 - 2 * pi / 12 * j) * (i * 40 + 80))-15"
+                text-anchor="middle" alignment-baseline="middle">
+                {{ interval.name }}
+            </text>
+
+        </ng-container>
+    </ng-container>
+</svg>
