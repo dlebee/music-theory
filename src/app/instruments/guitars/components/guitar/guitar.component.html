@@ -1,0 +1,26 @@
+<table *ngIf="guitar">
+
+    <thead>
+        <tr>
+            <th *ngFor="let item of [].constructor(fretCount+1); let i = index" [style.width]="getFretWidth(i)">{{ i }}
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let s of finalStrings">
+            <th [class.font-weight-bold]="isNoteAskedFor(s.openString)"
+                (click)="emitNoteClicked(s.openString, s.startOctave)"
+                [class.text-primary]="isNoteAskedFor(s.openString)">{{ s.openString.name }} {{ s.startOctave }}</th>
+
+            <ng-container *ngFor="let f of s.frets; let i = index">
+                <td *ngIf="maxFrets == null || i < maxFrets" (click)="emitNoteClicked(f.note, f.octave)">
+                    <div class="badge" [class.bg-secondary]="!isNoteAskedFor(f.note)" [class.bg-primary]="isNoteAskedFor(f.note)"
+                        *ngIf="showThisNote(f.note)">{{ f.note.name}} {{ f.octave }} </div>
+                    <hr [style.border-top-width]="getStringWidth(s)">
+                </td>
+            </ng-container>
+
+            <td class="bridge"></td>
+        </tr>
+    </tbody>
+</table>

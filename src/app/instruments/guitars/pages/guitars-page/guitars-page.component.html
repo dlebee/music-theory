@@ -1,0 +1,19 @@
+<h1>Guitar Instruments</h1>
+
+<p>
+    Choose a guitar: 
+    <ng-container *ngIf="options$ | async as options">
+        <select [(ngModel)]="currentType" class="form-control">
+            <optgroup [attr.label]="c.category" *ngFor="let c of options">
+                <option [value]="t" *ngFor="let t of c.types">{{t}}</option>
+            </optgroup>
+        </select>
+    </ng-container>
+    
+    <ng-container *ngIf="guitar$ | async as guitar;">
+        <div class="mt-5">
+            <app-guitar [guitar]="guitar" [maxFrets]="17"></app-guitar>
+        </div>
+        
+    </ng-container>
+</p>

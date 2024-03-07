@@ -14,6 +14,16 @@
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['/chords']" routerLinkActive="active">Chords</a>
       </li>
+
+      <li class="nav-item dropdown" ngbDropdown>
+        <a class="nav-link dropdown-toggle" ngbDropdownToggle>
+          Instruments
+        </a>
+        <div ngbDropdownMenu>
+          <a ngbDropdownItem routerLink="/instruments/guitars">Guitars</a>
+          <!-- <a ngbDropdownItem routerLink="/instruments/piano">Piano</a> -->
+        </div>
+      </li>
     </ul>
     <span class="navbar-text" style="padding-left: 20px; padding-right: 20px;">
       <a class="github-logo" target="_blank" href="https://github.com/dlebee/music-theory">
