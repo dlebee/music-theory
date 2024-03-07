@@ -38,6 +38,7 @@ export enum GuitarInstruments {
     BASS_STANDARD_5_STRING = 'Standard 5-String',
     BASS_STANDARD_6_STRING = 'Standard 6-String',
     GUITAR_STANDARD = 'Standard',
+    GUITAR_FLATENNED = 'Guitar Flatenned',
     GUITAR_DROP_D = 'Drop D',
     GUITAR_OPEN_G = 'Open G',
     GUITAR_OPEN_D = 'Open D',
@@ -103,6 +104,19 @@ export const guitarInstruments: IGuitarInstrumentDefinition[] = [
             { note: 'G', octave: 3 },
             { note: 'B', octave: 3 },
             { note: 'E', octave: 4 }
+        ],
+        frets: 24
+    },
+    {
+        category: GuitarCategories.GUITAR,
+        type: GuitarInstruments.GUITAR_FLATENNED,
+        notes: [
+            { note: 'D#', octave: 2 },
+            { note: 'G#', octave: 2 },
+            { note: 'C#', octave: 3 },
+            { note: 'A#', octave: 3 },
+            { note: 'C#', octave: 3 },
+            { note: 'D#', octave: 4 }
         ],
         frets: 24
     },
