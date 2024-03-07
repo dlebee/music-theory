@@ -16,8 +16,9 @@
                 [attr.y]="(octaves.length * 40 + 80 + 2) - sin(pi / 2 - 2 * pi / 12 * j) * (i * 40 + 80)"
                 text-anchor="middle" 
                 alignment-baseline="middle"
+                font-size="10"
                 [style.fill]="j == 0 ? 'blue' : 'black'">
-                {{ interval.note.name }} {{ octave.octave }}
+                {{ interval.note.name }} {{interval.note.alternativeName}}
             </text>
 
             <text *ngIf="octave.octave == 0 && j < 12" 
@@ -25,7 +26,15 @@
                 [attr.x]="(octaves.length * 40 + 80 + 2) + cos(pi / 2 - 2 * pi / 12 * j) * (i * 40 + 80)"
                 [attr.y]="((octaves.length * 40 + 80 + 2) - sin(pi / 2 - 2 * pi / 12 * j) * (i * 40 + 80))-15"
                 text-anchor="middle" alignment-baseline="middle">
-                {{ interval.name }}
+                {{ interval.name }} / {{ octave.octave}}
+            </text>
+
+            <text *ngIf="octave.octave > 0 && j < 12" 
+                font-size="8"
+                [attr.x]="(octaves.length * 40 + 80 + 2) + cos(pi / 2 - 2 * pi / 12 * j) * (i * 40 + 80)"
+                [attr.y]="((octaves.length * 40 + 80 + 2) - sin(pi / 2 - 2 * pi / 12 * j) * (i * 40 + 80))-15"
+                text-anchor="middle" alignment-baseline="middle">
+                {{ octave.octave }}
             </text>
 
         </ng-container>
