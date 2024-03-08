@@ -1,4 +1,4 @@
-import { AsyncPipe, JsonPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, JsonPipe, NgFor, NgIf, TitleCasePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { GuitarOptions, GuitarService } from '../../services/guitar.service';
 import { Observable, map, of } from 'rxjs';
@@ -21,7 +21,8 @@ import { MusicStyle } from '../../../../core-theory/models/IChord';
   standalone: true,
   imports: [NgIf, NgFor, AsyncPipe, FormsModule, JsonPipe,
      GuitarComponent, InlineNoteComponent, DegreesTableComponent, 
-     ScaleComponent, ChordComponent],
+     ScaleComponent, ChordComponent, TitleCasePipe
+  ],
   templateUrl: './guitars-page.component.html',
   styleUrl: './guitars-page.component.scss'
 })
