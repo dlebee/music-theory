@@ -11,11 +11,13 @@ import { getRomanNumeral } from '../../utils/number.util';
 import { InlineNoteComponent } from '../../components/inline-note/inline-note.component';
 import { ChordComponent } from '../../components/chord/chord.component';
 import { ScaleComponent } from '../../components/scale/scale.component';
+import { DegreesTableComponent } from '../../components/degrees-table/degrees-table.component';
 
 @Component({
   selector: 'app-scale-degrees-page',
   standalone: true,
-  imports: [AsyncPipe, NgIf, NgFor, TitleCasePipe, RouterModule, JsonPipe, InlineNoteComponent, ChordComponent, ScaleComponent],
+  imports: [AsyncPipe, NgIf, NgFor, TitleCasePipe, RouterModule, JsonPipe, 
+    InlineNoteComponent, ChordComponent, ScaleComponent, DegreesTableComponent],
   templateUrl: './scale-degrees-page.component.html',
   styleUrl: './scale-degrees-page.component.scss'
 })

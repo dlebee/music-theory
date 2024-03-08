@@ -44,12 +44,14 @@ export class ScaleComponent {
     if (!this.scale)
       return;
 
+    let indexOfB = this.scale.noteIntervals.findIndex(t => t.note.name == "B");
+
     let index = 0;
     let handler = setInterval(() => {
       
       if (index < this.scale!.noteIntervals.length) {
         let note = this.scale!.noteIntervals[index].note;
-        this.playNote(note.name, index == this.scale!.noteIntervals.length-1);
+        this.playNote(note.name, index > indexOfB);
       } else {
         clearInterval(handler);
       }
@@ -64,11 +66,12 @@ export class ScaleComponent {
       return;
 
     let index = this.scale.noteIntervals.length;
+    let indexOfB = this.scale.noteIntervals.findIndex(t => t.note.name == "B");
     let handler = setInterval(() => {
       
       if (index < this.scale!.noteIntervals.length) {
         let note = this.scale!.noteIntervals[index].note;
-        this.playNote(note.name, index == this.scale!.noteIntervals.length - 1);
+        this.playNote(note.name, index > indexOfB);
         if (index == 0) {
           clearInterval(handler);
         }

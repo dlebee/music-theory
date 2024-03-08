@@ -27,7 +27,11 @@
 
         <!-- open note indicator -->
         <text (click)="emitNoteClicked(string.openString, string.startOctave)" [attr.x]="0"
-            [attr.y]="getStringYPosition(i)+5" font-family="Arial" font-size="10" fill="black">
+            [attr.y]="getStringYPosition(i)+5" 
+            [attr.fill]="isNoteAskedFor(string.openString) ? 'blue' : 'black'"
+            [attr.font-weight]="isNoteAskedFor(string.openString) ? 400 : 100"
+
+            font-family="Arial" font-size="10" fill="black">
             {{string.openString.name}} {{ string.startOctave }}
         </text>
 
@@ -39,6 +43,8 @@
         <text [attr.y]="getStringYPosition(i)" 
               [attr.x]="getFretXPosition(j+1)-10" 
               font-size="7"
+              [attr.fill]="isNoteAskedFor(fret.note) ? 'blue' : 'black'"
+              [attr.font-weight]="isNoteAskedFor(fret.note) ? 400 : 100"
               (click)="emitNoteClicked(fret.note, fret.octave)"
             *ngFor="let fret of string.frets; let j = index">{{ fret.note.name }}{{fret.octave}}</text>
     </ng-container>

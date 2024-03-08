@@ -1,0 +1,18 @@
+<table class="table table-bordered">
+    <tr>
+        <ng-container *ngFor="let ni of degrees.scale.noteIntervals; let i = index; let isLast=last">
+            <th class="text-center" *ngIf="!isLast">
+                {{ getRomanNumeral(i+1) }}
+            </th>
+        </ng-container>
+
+    </tr>
+    <tr>
+        <ng-container *ngFor="let ni of degrees.scale.noteIntervals; let isLast = last">
+            <td class="text-center" *ngIf="!isLast">
+                <app-note [note]="ni.note"></app-note>
+            </td>
+        </ng-container>
+
+    </tr>
+</table>

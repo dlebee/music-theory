@@ -15,24 +15,7 @@
         Use your keyboard to play the chords of the degrees from 1 to {{degrees.scale.noteIntervals.length - 1 }}
     </div>
 
-    <table class="table table-bordered">
-        <tr>
-            <ng-container *ngFor="let ni of degrees.scale.noteIntervals; let i = index; let isLast=last">
-                <th class="text-center" *ngIf="!isLast">
-                    {{ getRomanNumeral(i+1) }}
-                </th>
-            </ng-container>
-
-        </tr>
-        <tr>
-            <ng-container *ngFor="let ni of degrees.scale.noteIntervals; let isLast = last">
-                <td class="text-center" *ngIf="!isLast">
-                    <app-inline-note [note]="ni.note"></app-inline-note>
-                </td>
-            </ng-container>
-
-        </tr>
-    </table>
+    <app-degrees-table [degrees]="degrees"></app-degrees-table>
 
     <div class="row mt-3">
         <div class="col-12">
