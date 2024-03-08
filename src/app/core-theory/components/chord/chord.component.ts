@@ -33,6 +33,8 @@ export class ChordComponent {
       this.intervals$ = this.intervalService.getNoteIntervals(value.key);
   }
 
+  @Input() showClock = true;
+
   get chord() {
     return this._chord;
   }

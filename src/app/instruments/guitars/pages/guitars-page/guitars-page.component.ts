@@ -35,6 +35,7 @@ export class GuitarsPageComponent {
   scaleTypes = scales.map(t => t.type);
   degrees$: Observable<IScaleDegrees | null> = of(null);
   scaleNotes: INote[] = [];
+  showClocks = false;
 
   constructor(private guitar: GuitarService, private noteService: NoteService, private degreeService: ScaleDegreeService) {
     this.options$ = guitar.options();

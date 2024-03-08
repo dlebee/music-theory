@@ -20,11 +20,12 @@
                 (click)="playNote(ni.note.name)">{{ ni.note.name }}
                 <small>{{ni.note.alternativeName}}</small></span>
         </p>
-        
-        <ng-container *ngIf="intervals$ | async as intervals">
-            <app-note-clock [intervals]="intervals" [selectedIntervals]="scale.noteIntervals"></app-note-clock>
+
+        <ng-container *ngIf="showClock">
+            <ng-container *ngIf="intervals$ | async as intervals">
+                <app-note-clock [intervals]="intervals" [selectedIntervals]="scale.noteIntervals"></app-note-clock>
+            </ng-container>
         </ng-container>
-        
     </div>
     <div class="card-footer">
         <button (click)="play()" class="btn btn-primary me-2">Play</button>

@@ -35,6 +35,8 @@ export class ScaleComponent {
     return this._scale;
   }
 
+  @Input() showClock = true;
+
   playNote(noteName: string, nextOctave: boolean = false) {
     this.tone.playNote(noteName, nextOctave ? "5" : "4", "8n");
   }

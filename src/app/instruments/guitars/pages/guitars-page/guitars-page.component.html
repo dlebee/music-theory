@@ -13,6 +13,10 @@
 <p>
     Reversed: <input type="checkbox" [(ngModel)]="reversed" />
 </p>
+<p>
+    Show Clocks: <input type="checkbox" [(ngModel)]="showClocks" />
+</p>
+
 
 <div class="row">
     <div class="col">
@@ -47,7 +51,7 @@
 
 <ng-container *ngIf="degrees$ | async as degrees">
     <div class="mt-2">
-        <app-scale [scale]="degrees.scale"></app-scale>
+        <app-scale [showClock]="showClocks" [scale]="degrees.scale"></app-scale>
     </div>
 
     <div class="row mt-4">
@@ -55,7 +59,7 @@
             <h4>Chords</h4>
         </div>
         <div class="col-12 col-md-6 col-lg-4 p-2" *ngFor="let c of degrees.chords; let i = index">
-            <app-chord [chord]="c"></app-chord>
+            <app-chord [showClock]="showClocks" [chord]="c"></app-chord>
         </div>
     </div>
 </ng-container>
