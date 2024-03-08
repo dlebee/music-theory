@@ -13,8 +13,7 @@
     <ng-container *ngFor="let item of [].constructor(fretCount+1); let i = index">
 
         <!-- fret indicator -->
-        <text [attr.x]="getFretXPosition(i)" 
-            [attr.y]="viewPaddingY/2" font-family="Arial" font-size="8" fill="black">
+        <text [attr.x]="getFretXPosition(i)" [attr.y]="viewPaddingY/2" font-family="Arial" font-size="8" fill="black">
             {{ i }}
         </text>
 
@@ -27,29 +26,22 @@
 
         <!-- open note indicator -->
         <text (click)="emitNoteClicked(string.openString, string.startOctave)" [attr.x]="0"
-            [attr.y]="getStringYPosition(i)+5" 
-            [attr.fill]="isNoteAskedFor(string.openString) ? 'blue' : 'black'"
-            [attr.font-weight]="isNoteAskedFor(string.openString) ? 400 : 100"
-
-            font-family="Arial" font-size="10" fill="black">
+            [attr.y]="getStringYPosition(i)+5" [attr.fill]="isNoteAskedFor(string.openString) ? 'blue' : 'black'"
+            [attr.font-weight]="isNoteAskedFor(string.openString) ? 400 : 100" font-family="Arial" font-size="10"
+            fill="black">
             {{string.openString.name}} {{ string.startOctave }}
         </text>
 
         <!-- strings -->
         <rect [attr.y]="getStringYPosition(i)" [attr.width]="viewBoxWidth - (viewPaddingX)" height="1.5"
             [attr.x]="viewPaddingX" [attr.fill]="'url(#stringGradient)'" />
-
+        
         <!-- notes -->
-        <text [attr.y]="getStringYPosition(i)" 
-              [attr.x]="getFretXPosition(j+1)-10" 
-              font-size="7"
-              [attr.fill]="isNoteAskedFor(fret.note) ? 'blue' : 'black'"
-              [attr.font-weight]="isNoteAskedFor(fret.note) ? 400 : 100"
-              (click)="emitNoteClicked(fret.note, fret.octave)"
-            *ngFor="let fret of string.frets; let j = index">{{ fret.note.name }}{{fret.octave}}</text>
+        <ng-container *ngFor="let fret of string.frets; let j = index">
+            <text *ngIf="showThisNote(fret.note)" [attr.y]="getStringYPosition(i)" [attr.x]="getFretXPosition(j+1)-10"
+                font-size="7" [attr.fill]="isNoteAskedFor(fret.note) ? 'blue' : 'black'"
+                [attr.font-weight]="isNoteAskedFor(fret.note) ? 400 : 100"
+                (click)="emitNoteClicked(fret.note, fret.octave)">{{ fret.note.name }}{{fret.octave}}</text>
+        </ng-container>
     </ng-container>
-
-
-
-
 </svg>

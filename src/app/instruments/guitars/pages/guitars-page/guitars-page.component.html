@@ -44,6 +44,10 @@
 
 <ng-container *ngIf="guitar$ | async as guitar;">
     <div class="mt-3">
-        <app-guitar [guitar]="guitar" [reversed]="reversed" [notes]="scaleNotes"></app-guitar>
+        <app-guitar [guitar]="guitar" 
+                    [reversed]="reversed" 
+                    [showNotes]="(degrees$ | async) == null"
+                    [notes]="scaleNotes">
+        </app-guitar>
     </div>
 </ng-container>
