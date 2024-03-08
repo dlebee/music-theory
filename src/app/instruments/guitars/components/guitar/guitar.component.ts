@@ -47,7 +47,8 @@ export class GuitarComponent {
       return positionOfNut; // Position of the nut
     else {
       let fretSpacingPercentage = 1 - Math.pow(0.943874, index); // Adjust the scale factor as needed
-      return startOfOtherFrets + fretSpacingPercentage * (this.viewBoxWidth - widthOfNut);
+      let result = startOfOtherFrets + fretSpacingPercentage * (this.viewBoxWidth - widthOfNut);
+      return result * 1.25;
     }
   }
 
