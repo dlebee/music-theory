@@ -49,5 +49,13 @@
     <div class="mt-2">
         <app-scale [scale]="degrees.scale"></app-scale>
     </div>
-    
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <h4>Chords</h4>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 p-2" *ngFor="let c of degrees.chords; let i = index">
+            <app-chord [chord]="c"></app-chord>
+        </div>
+    </div>
 </ng-container>

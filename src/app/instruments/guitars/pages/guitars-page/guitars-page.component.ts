@@ -13,12 +13,14 @@ import { ScaleDegreeService } from '../../../../core-theory/services/scale-degre
 import { IScaleDegrees } from '../../../../core-theory/models/IScaleDegrees';
 import { DegreesTableComponent } from '../../../../core-theory/components/degrees-table/degrees-table.component';
 import { ScaleComponent } from '../../../../core-theory/components/scale/scale.component';
+import { ChordComponent } from '../../../../core-theory/components/chord/chord.component';
 
 @Component({
   selector: 'app-guitars-page',
   standalone: true,
   imports: [NgIf, NgFor, AsyncPipe, FormsModule, JsonPipe,
-     GuitarComponent, InlineNoteComponent, DegreesTableComponent, ScaleComponent],
+     GuitarComponent, InlineNoteComponent, DegreesTableComponent, 
+     ScaleComponent, ChordComponent],
   templateUrl: './guitars-page.component.html',
   styleUrl: './guitars-page.component.scss'
 })
