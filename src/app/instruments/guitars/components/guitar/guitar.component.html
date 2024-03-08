@@ -1,26 +1,49 @@
-<table *ngIf="guitar">
+<svg *ngIf="guitar" [attr.viewBox]="'0 0 ' + viewBoxWidth + ' ' + viewBoxHeight" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="stringGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color: #b3b3b3; stop-opacity: 1" />
+            <stop offset="100%" style="stop-color: #666666; stop-opacity: 1" />
+        </linearGradient>
+    </defs>
 
-    <thead>
-        <tr>
-            <th *ngFor="let item of [].constructor(fretCount+1); let i = index" [style.width]="getFretWidth(i)">{{ i }}
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let s of finalStrings">
-            <th [class.font-weight-bold]="isNoteAskedFor(s.openString)"
-                (click)="emitNoteClicked(s.openString, s.startOctave)"
-                [class.text-primary]="isNoteAskedFor(s.openString)">{{ s.openString.name }} {{ s.startOctave }}</th>
+    <!-- Fretboard -->
+    <rect [attr.x]="viewPaddingX" [attr.y]="viewPaddingY" [attr.width]="viewBoxWidth-viewPaddingY"
+        [attr.height]="viewBoxHeight - (viewPaddingY * 2)" fill="#b78c5a" />
 
-            <ng-container *ngFor="let f of s.frets; let i = index">
-                <td *ngIf="maxFrets == null || i < maxFrets" (click)="emitNoteClicked(f.note, f.octave)">
-                    <div class="badge" [class.bg-secondary]="!isNoteAskedFor(f.note)" [class.bg-primary]="isNoteAskedFor(f.note)"
-                        *ngIf="showThisNote(f.note)">{{ f.note.name}} {{ f.octave }} </div>
-                    <hr [style.border-top-width]="getStringWidth(s)">
-                </td>
-            </ng-container>
+    <ng-container *ngFor="let item of [].constructor(fretCount+1); let i = index">
 
-            <td class="bridge"></td>
-        </tr>
-    </tbody>
-</table>
+        <!-- fret indicator -->
+        <text [attr.x]="getFretXPosition(i)" 
+            [attr.y]="viewPaddingY/2" font-family="Arial" font-size="8" fill="black">
+            {{ i }}
+        </text>
+
+        <!-- frets! -->
+        <rect [attr.x]="getFretXPosition(i)" [attr.y]="viewPaddingY" [attr.width]="i == 0 ? 7 : 4"
+            [attr.height]="viewBoxHeight-viewPaddingY*2" [attr.fill]="i == 0 ? 'white' : 'url(#stringGradient)'" />
+    </ng-container>
+
+    <ng-container *ngFor="let string of finalStrings; let i = index">
+
+        <!-- open note indicator -->
+        <text (click)="emitNoteClicked(string.openString, string.startOctave)" [attr.x]="0"
+            [attr.y]="getStringYPosition(i)+5" font-family="Arial" font-size="10" fill="black">
+            {{string.openString.name}} {{ string.startOctave }}
+        </text>
+
+        <!-- strings -->
+        <rect [attr.y]="getStringYPosition(i)" [attr.width]="viewBoxWidth - (viewPaddingX)" height="1.5"
+            [attr.x]="viewPaddingX" [attr.fill]="'url(#stringGradient)'" />
+
+        <!-- notes -->
+        <text [attr.y]="getStringYPosition(i)" 
+              [attr.x]="getFretXPosition(j+1)-10" 
+              font-size="7"
+              (click)="emitNoteClicked(fret.note, fret.octave)"
+            *ngFor="let fret of string.frets; let j = index">{{ fret.note.name }}{{fret.octave}}</text>
+    </ng-container>
+
+
+
+
+</svg>

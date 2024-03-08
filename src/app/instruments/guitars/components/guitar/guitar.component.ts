@@ -13,10 +13,11 @@ import { ToneService } from '../../../../core-theory/services/tone.service';
 })
 export class GuitarComponent {
 
-  readonly firstFretWidth: number = 1.4312;
-  readonly distanceBetweenFrets: number = 1.059463;
+  readonly viewBoxWidth = 1000;
+  readonly viewBoxHeight = 250;
+  readonly viewPaddingY = 20;
+  readonly viewPaddingX = 20;
 
-  @Input() necksSize: number = 19;
   @Input() guitar: IGuitar | null = null;
   @Input() showNotes: boolean = true;
   @Input() notes: INote[] = [];
@@ -29,29 +30,32 @@ export class GuitarComponent {
   }>();
 
   constructor(private tone: ToneService) {
-    
+
   }
 
   get fretCount() {
     return this.maxFrets ? this.maxFrets : this.guitar?.fretCount ?? 0;
   }
 
-  getStringWidth(s: IGuitarString) {
-    return 0.5 + (0.5 * this.guitar!.strings.indexOf(s)) + 'px';
-  }
+  getFretXPosition(index: number) {
 
-  getFretWidth(index: number) {
+    let positionOfNut = this.viewPaddingX + (this.viewPaddingX * 0.5);
+    let widthOfNut = 7;
+    let startOfOtherFrets = positionOfNut + widthOfNut;
 
     if (index == 0)
-      return '40px';
-
-    let width = this.firstFretWidth;
-    for (let i = 2; i <= index; i++) {
-      width /= this.distanceBetweenFrets;
+      return positionOfNut; // Position of the nut
+    else {
+      let fretSpacingPercentage = 1 - Math.pow(0.943874, index); // Adjust the scale factor as needed
+      return startOfOtherFrets + fretSpacingPercentage * (this.viewBoxWidth - widthOfNut);
     }
+  }
 
-    let percentage = width * 100 / this.necksSize;
-    return `${percentage}%`;
+  getStringYPosition(index: number) {
+
+    const validYSpace = this.viewBoxHeight - (this.viewPaddingY*2);
+    const spacePerString = validYSpace / this.guitar!.strings.length;
+    return (this.viewPaddingY * 2) + (spacePerString * index);
   }
 
   emitNoteClicked(note: INote, octave: number) {
@@ -63,13 +67,13 @@ export class GuitarComponent {
   }
 
   calculateOctave(startOctave: number, index: number) {
-    return startOctave + Math.floor((index+1) / 12);
+    return startOctave + Math.floor((index + 1) / 12);
   }
 
   get finalStrings() {
-    return this.reversed ? 
-    this.guitar!.strings.slice().reverse() : 
-    this.guitar!.strings.slice()
+    return this.reversed ?
+      this.guitar!.strings.slice().reverse() :
+      this.guitar!.strings.slice()
   }
 
   isNoteAskedFor(note: INote) {
