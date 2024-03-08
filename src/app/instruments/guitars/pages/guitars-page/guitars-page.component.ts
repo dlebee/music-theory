@@ -14,6 +14,7 @@ import { IScaleDegrees } from '../../../../core-theory/models/IScaleDegrees';
 import { DegreesTableComponent } from '../../../../core-theory/components/degrees-table/degrees-table.component';
 import { ScaleComponent } from '../../../../core-theory/components/scale/scale.component';
 import { ChordComponent } from '../../../../core-theory/components/chord/chord.component';
+import { MusicStyle } from '../../../../core-theory/models/IChord';
 
 @Component({
   selector: 'app-guitars-page',
@@ -36,11 +37,17 @@ export class GuitarsPageComponent {
   degrees$: Observable<IScaleDegrees | null> = of(null);
   scaleNotes: INote[] = [];
   showClocks = false;
+  showAllStyles = false;
+  styles: { title: string; value: MusicStyle; }[];
+  selectedStyle: MusicStyle | null = null;
 
   constructor(private guitar: GuitarService, private noteService: NoteService, private degreeService: ScaleDegreeService) {
     this.options$ = guitar.options();
     this.currentType = GuitarInstruments.GUITAR_STANDARD;
     this.notes$ = this.noteService.getNotes();
+    this.styles = Object.values(MusicStyle).map((value) => {
+      return { title: value, value: value };
+    })
   }
 
   refreshDegrees() {

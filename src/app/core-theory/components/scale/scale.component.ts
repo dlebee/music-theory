@@ -18,7 +18,7 @@ import { NoteIntervalService } from '../../services/note-interval.service';
 export class ScaleComponent {
   private _scale?: IScale;
   intervals$: Observable<INoteInterval[]> = of([]);
-
+  
   constructor(private tone: ToneService, private noteIntervalService: NoteIntervalService) {
 
   }
@@ -36,6 +36,7 @@ export class ScaleComponent {
   }
 
   @Input() showClock = true;
+  @Input() showDegreesLink = true;
 
   playNote(noteName: string, nextOctave: boolean = false) {
     this.tone.playNote(noteName, nextOctave ? "5" : "4", "8n");

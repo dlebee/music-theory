@@ -30,7 +30,7 @@
     <div class="card-footer">
         <button (click)="play()" class="btn btn-primary me-2">Play</button>
         <button (click)="playReverse()" class="btn btn-primary me-2">Play Reverse</button>
-        <button [routerLink]="['/scale', scale.key.name, scale.definition.type, 'degrees']"
+        <button *ngIf="showDegreesLink" [routerLink]="['/scale', scale.key.name, scale.definition.type, 'degrees']"
             class="btn btn-secondary">Degrees</button>
     </div>
 </div>

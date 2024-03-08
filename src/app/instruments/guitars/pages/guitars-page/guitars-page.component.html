@@ -1,24 +1,40 @@
 <h1>Guitar Instruments</h1>
 
-<p>
-    Choose a guitar:
-    <ng-container *ngIf="options$ | async as options">
-        <select [(ngModel)]="currentType" class="form-control">
-            <optgroup [attr.label]="c.category" *ngFor="let c of options">
-                <option [value]="t" *ngFor="let t of c.types">{{t}}</option>
-            </optgroup>
-        </select>
-    </ng-container>
-</p>
-<p>
-    Reversed: <input type="checkbox" [(ngModel)]="reversed" />
-</p>
-<p>
-    Show Clocks: <input type="checkbox" [(ngModel)]="showClocks" />
-</p>
-
-
 <div class="row">
+    <div class="col">
+        <ng-container *ngIf="options$ | async as options">
+            <select [(ngModel)]="currentType" class="form-control">
+                <optgroup [attr.label]="c.category" *ngFor="let c of options">
+                    <option [value]="t" *ngFor="let t of c.types">{{t}}</option>
+                </optgroup>
+            </select>
+        </ng-container>
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col">
+        Reversed <input type="checkbox" [(ngModel)]="reversed" />
+    </div>
+    <div class="col">
+        Show Clocks <input type="checkbox" [(ngModel)]="showClocks" />
+    </div>
+</div>
+<div class="row mt-2">
+    <div class="col">
+        <select class="form-control" [(ngModel)]="selectedStyle">
+            <option [ngValue]="null">Select a music style</option>
+            <option [ngValue]="style.value" *ngFor="let style of styles">
+                {{ style.title }}
+            </option>
+        </select>
+    </div>
+    <div class="col">
+        Show all style <input type="checkbox" [(ngModel)]="showAllStyles" />
+    </div>
+</div>
+
+<div class="row mt-2">
     <div class="col">
         <ng-container *ngIf="notes$ | async as notes">
             <select class="form-control" [(ngModel)]="selectedNote" (change)="refreshDegrees()">
@@ -41,25 +57,29 @@
 
 <ng-container *ngIf="guitar$ | async as guitar;">
     <div class="mt-3">
-        <app-guitar [guitar]="guitar" 
-                    [reversed]="reversed" 
-                    [showNotes]="(degrees$ | async) == null"
-                    [notes]="scaleNotes">
+        <app-guitar [guitar]="guitar" [reversed]="reversed" [showNotes]="(degrees$ | async) == null"
+            [notes]="scaleNotes">
         </app-guitar>
     </div>
 </ng-container>
 
 <ng-container *ngIf="degrees$ | async as degrees">
     <div class="mt-2">
-        <app-scale [showClock]="showClocks" [scale]="degrees.scale"></app-scale>
+        <app-scale [showDegreesLink]="false" [showClock]="showClocks" [scale]="degrees.scale"></app-scale>
     </div>
 
     <div class="row mt-4">
         <div class="col-12">
             <h4>Chords</h4>
         </div>
-        <div class="col-12 col-md-6 col-lg-4 p-2" *ngFor="let c of degrees.chords; let i = index">
-            <app-chord [showClock]="showClocks" [chord]="c"></app-chord>
-        </div>
+        <ng-container *ngFor="let c of degrees.chords; let i = index">
+            <ng-container
+                *ngIf="showAllStyles || selectedStyle == null || c.chordDefinition.styles.indexOf(selectedStyle) >= 0">
+                <div class="col-12 col-md-6 col-lg-4 p-2">
+                    <app-chord [showClock]="showClocks" [chord]="c"></app-chord>
+                </div>
+            </ng-container>
+        </ng-container>
+
     </div>
 </ng-container>
