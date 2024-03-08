@@ -8,7 +8,7 @@
 
     <!-- Fretboard -->
     <rect [attr.x]="viewPaddingX" [attr.y]="viewPaddingY" [attr.width]="viewBoxWidth-viewPaddingY"
-        [attr.height]="viewBoxHeight - (viewPaddingY * 2)" fill="#b78c5a" />
+        [attr.height]="viewBoxHeight - (viewPaddingY * 2)" fill="#d4b18c" />
 
     <ng-container *ngFor="let item of [].constructor(fretCount+1); let i = index">
 
@@ -38,8 +38,8 @@
         
         <!-- notes -->
         <ng-container *ngFor="let fret of string.frets; let j = index">
-            <text *ngIf="showThisNote(fret.note)" [attr.y]="getStringYPosition(i)" [attr.x]="getFretXPosition(j+1)-10"
-                font-size="7" [attr.fill]="isNoteAskedFor(fret.note) ? 'blue' : 'black'"
+            <text *ngIf="showThisNote(fret.note)" [attr.y]="getStringYPosition(i)" [attr.x]="getFretXPosition(j+1)-20"
+                font-size="14" [attr.fill]="isNoteAskedFor(fret.note) ? 'blue' : 'black'"
                 [attr.font-weight]="isNoteAskedFor(fret.note) ? 400 : 100"
                 (click)="emitNoteClicked(fret.note, fret.octave)">{{ fret.note.name }}{{fret.octave}}</text>
         </ng-container>

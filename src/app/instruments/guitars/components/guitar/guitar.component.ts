@@ -13,7 +13,7 @@ import { ToneService } from '../../../../core-theory/services/tone.service';
 })
 export class GuitarComponent {
 
-  readonly viewBoxWidth = 1000;
+  readonly viewBoxWidth = 1500;
   readonly viewBoxHeight = 250;
   readonly viewPaddingY = 20;
   readonly viewPaddingX = 20;
