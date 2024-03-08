@@ -17,6 +17,7 @@ export class GuitarsPageComponent {
   options$: Observable<GuitarOptions[]>;
   private _currentType: GuitarInstruments | null = null;
   guitar$: Observable<IGuitar | null> = of(null);
+  reversed = false;
 
   constructor(private guitar: GuitarService) {
     this.options$ = guitar.options();

@@ -1,7 +1,7 @@
 <h1>Guitar Instruments</h1>
 
 <p>
-    Choose a guitar: 
+    Choose a guitar:
     <ng-container *ngIf="options$ | async as options">
         <select [(ngModel)]="currentType" class="form-control">
             <optgroup [attr.label]="c.category" *ngFor="let c of options">
@@ -9,11 +9,13 @@
             </optgroup>
         </select>
     </ng-container>
-    
-    <ng-container *ngIf="guitar$ | async as guitar;">
-        <div class="mt-5">
-            <app-guitar [guitar]="guitar"></app-guitar>
-        </div>
-        
-    </ng-container>
 </p>
+<p>
+    Reversed: <input type="checkbox" [(ngModel)]="reversed" />
+</p>
+
+<ng-container *ngIf="guitar$ | async as guitar;">
+    <div class="mt-3">
+        <app-guitar [guitar]="guitar" [reversed]="reversed"></app-guitar>
+    </div>
+</ng-container>
