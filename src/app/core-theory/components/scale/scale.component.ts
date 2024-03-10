@@ -7,6 +7,7 @@ import { NoteClockComponent } from '../note-clock/note-clock.component';
 import { Observable, of } from 'rxjs';
 import { INoteInterval } from '../../models/INoteInterval';
 import { NoteIntervalService } from '../../services/note-interval.service';
+import { INote } from '../../models/INote';
 
 @Component({
   selector: 'app-scale',
@@ -42,19 +43,24 @@ export class ScaleComponent {
     this.tone.playNote(noteName, nextOctave ? "5" : "4", "8n");
   }
 
+  isOctave(noteInterval: INoteInterval, noteIntervals: INoteInterval[]) {
+    let indexOf = noteIntervals.indexOf(noteInterval);
+    let indexOfFirstNoteAfterB = noteIntervals.findIndex(t => t.note.name.charAt(0) > 'B');
+    return indexOf >= indexOfFirstNoteAfterB;
+  }
+
   play() {
 
     if (!this.scale)
       return;
 
-    let indexOfB = this.scale.noteIntervals.findIndex(t => t.note.name == "B");
-
+    let indexOfFirstNoteAfterB = this.scale.noteIntervals.findIndex(t => t.note.name.charAt(0) > 'B');
     let index = 0;
     let handler = setInterval(() => {
       
       if (index < this.scale!.noteIntervals.length) {
         let note = this.scale!.noteIntervals[index].note;
-        this.playNote(note.name, index > indexOfB);
+        this.playNote(note.name, index >= indexOfFirstNoteAfterB);
       } else {
         clearInterval(handler);
       }
@@ -68,13 +74,13 @@ export class ScaleComponent {
     if (!this.scale)
       return;
 
+    let indexOfFirstNoteAfterB = this.scale.noteIntervals.findIndex(t => t.note.name.charAt(0) > 'B');
     let index = this.scale.noteIntervals.length;
-    let indexOfB = this.scale.noteIntervals.findIndex(t => t.note.name == "B");
     let handler = setInterval(() => {
       
       if (index < this.scale!.noteIntervals.length) {
         let note = this.scale!.noteIntervals[index].note;
-        this.playNote(note.name, index > indexOfB);
+        this.playNote(note.name, index >= index);
         if (index == 0) {
           clearInterval(handler);
         }

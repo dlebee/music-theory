@@ -17,8 +17,9 @@
         <p class="card-text">
             Notes:
             <span *ngFor="let ni of scale.noteIntervals" class="badge bg-secondary me-2"
-                (click)="playNote(ni.note.name)">{{ ni.note.name }}
-                <small>{{ni.note.alternativeName}}</small></span>
+                (click)="playNote(ni.note.name, isOctave(ni, scale.noteIntervals))">{{ ni.note.name }}
+                <small>{{ni.note.alternativeName}}</small>
+            </span>
         </p>
 
         <ng-container *ngIf="showClock">
