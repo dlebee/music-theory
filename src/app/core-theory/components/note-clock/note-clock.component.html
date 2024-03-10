@@ -12,13 +12,12 @@
             </ng-container>
         </ng-container>
     </g> -->
-    
+
     <g stroke="blue" stroke-width="1">
-        <line *ngFor="let interval of findSelectedIntervalsWithNext()"
-          [attr.x1]="calculateX(interval.start)" [attr.y1]="calculateY(interval.start)"
-          [attr.x2]="calculateX(interval.end)" [attr.y2]="calculateY(interval.end)"
-        />
-      </g>
+        <line *ngFor="let interval of findSelectedIntervalsWithNext()" [attr.x1]="calculateX(interval.start)"
+            [attr.y1]="calculateY(interval.start)" [attr.x2]="calculateX(interval.end)"
+            [attr.y2]="calculateY(interval.end)" />
+    </g>
 
     <g font-size="10" font-family="'Sancreek',cursive" text-anchor="middle">
         <ng-container *ngFor="let interval of intervals; let i = index; let isFirst = first ; let isLast = last">
@@ -31,10 +30,16 @@
     </g>
 
     <g font-size="15" font-family="'Sancreek',cursive" text-anchor="middle">
-        <text *ngFor="let interval of intervals; let i = index;" (click)="playNote(interval.note.name)" dy="0.35em"
-            [attr.transform]="'rotate(' + (i * 30) + '),translate(0,-120),rotate(' + (-i * 30) + ')'"
-            [style.fill]="selectedNoteColor(interval.note)">
-            {{ interval.note.name }} {{ interval.note.alternativeName }}</text>
+        <ng-container *ngFor="let interval of intervals; let i = index;">
+            <ng-container *ngIf="i <= 11">
+                <text (click)="playNote(interval.note.name, i >= indexAfterB)" dy="0.35em"
+                [attr.transform]="'rotate(' + (i * 30) + '),translate(0,-120),rotate(' + (-i * 30) + ')'"
+                [style.fill]="selectedNoteColor(interval.note)">
+                {{ interval.note.name }} {{ interval.note.alternativeName }}</text>
+            </ng-container>
+            
+        </ng-container>
+
     </g>
 
 </svg>

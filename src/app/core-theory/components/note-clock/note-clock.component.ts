@@ -21,8 +21,12 @@ export class NoteClockComponent {
   @Input() intervals: INoteInterval[] = [];
   @Input() selectedIntervals: INoteInterval[] = [];
 
-  playNote(note: string) {
-    this.tone.playNote(note, "4", "8n");
+  get indexAfterB() {
+    return this.intervals.findIndex(t => t.note.name.charAt(0) > 'B');
+  }
+
+  playNote(note: string, nextOctave: boolean = false) {
+    this.tone.playNote(note, nextOctave ? "5" : "4", "8n");
   }
 
   findSelectedIntervalsWithNext()  {
