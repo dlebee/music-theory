@@ -1,3 +1,4 @@
+import { IChord } from "../../../core-theory/models/IChord";
 import { INote } from "../../../core-theory/models/INote";
 
 export interface IGuitarString
@@ -18,13 +19,15 @@ export interface IGuitar
     strings: IGuitarString[];
 }
 
-export interface IGuitarInstrumentTunning {
-
+export interface IGuitarChord {
+    chord: IChord;
+    positions: Array<null | IGuitarChordPosition>
 }
 
-export interface IGuitarInstruments {
-    name: string,
-    tunnings: []
+export interface IGuitarChordPosition {
+    string: IGuitarString; // which string we are playing.
+    isOpenString: boolean; // this tells us if its open string.
+    fret: IGuitarFret | null; // if its not an open string its a fret.
 }
 
 export enum GuitarCategories {
