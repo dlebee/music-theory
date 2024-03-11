@@ -11,12 +11,6 @@ export interface GuitarOptions {
   types: GuitarInstruments[]
 }
 
-interface GuitarPosition {
-  stringIndex: number,
-  fretIndex: number,
-  note: string
-}
-
 @Injectable({
   providedIn: 'root'
 })
@@ -90,56 +84,88 @@ export class GuitarService {
     return ret;
   }
 
-  private findChords(fretboard: string[][], chord: string[]) : GuitarPosition[][] {
-    let result: GuitarPosition[][]= [];
+  findChordPositions(guitar: IGuitar, chord: IChord): IGuitarChord[] {
 
-    if (0 == fretboard.length)
-      return result;
+    let chordNotes = chord.noteIntervals.map(t => t.note.name.toLowerCase());
+    let fretboard = guitar.strings.map(guitarString => {
+      let openStringNote = guitarString.openString.name.toLowerCase();
+      let openStringNoteOrNull = chordNotes.indexOf(openStringNote) == -1 ? null : openStringNote;
 
-    console.log(fretboard, chord);
-    
-    let stringCount = fretboard.length;
-    console.log('stringCount', stringCount);
-    let fretCount = fretboard[0].length;
-    let maxFretStretch = 4;
+      return [openStringNoteOrNull].concat(
+        guitarString.frets.map(fret => {
+          let fretNote = fret.note.name.toLowerCase();
+          return chordNotes.indexOf(fretNote) == -1 ? null : fretNote;
+        })
+      );
+    });
 
-    // number of brute force per fret
-    for(let fretIndex = fretCount-1; fretIndex >= 0; fretIndex--) {
+    let shapes = this.findChordShapes(fretboard, chordNotes);
+    console.log('found shapes', shapes);
 
-      let fretRangeFindings: GuitarPosition[] = [];
+    let result = shapes.map(shape => {
+      return <IGuitarChord>{
+        chord: chord,
+        positions: shape.reduce<IGuitarChordPosition[]>((list, pos, index) => {
 
-      for (let fretStretchIndex = fretIndex, j = 0; fretStretchIndex >= 0 && j < maxFretStretch; fretStretchIndex--, j++) {
-        
-        // now lets move down with the strings :)
-        for (let stringIndex = 0 ; stringIndex < stringCount; stringIndex++) {
-          let note = fretboard[stringIndex][fretStretchIndex];
-          if (chord.indexOf(note) != -1)
-          fretRangeFindings.push({ stringIndex: stringIndex, fretIndex: fretStretchIndex, note: note });
-        }
+          if (pos == -1)
+            return list;
+
+          list.push({
+            isOpenString: pos == 0,
+            string: guitar.strings[index],
+            fret: pos == 0 ? null : guitar.strings[index].frets[pos-1]
+          });
+          return list;
+        }, [])
       }
-
-      console.log(fretRangeFindings);
-      break;
-    }
+    });
+    
+    console.log(result);
 
     return result;
   }
 
-  findChordPositions(guitar: IGuitar, chord: IChord): IGuitarChord[] {
+  private findChordShapes(filteredFretboard: Array<Array<string | null>>, chord: string[]): number[][] {
+    let shapes: number[][] = [];
 
-    let result: IGuitarChord[] = [];
+    for (let startFret = 0; startFret < filteredFretboard[0].length - 4; startFret++) {
+      for (let string = 0; string < filteredFretboard.length; string++) {
+        let shape: number[] = new Array(filteredFretboard.length).fill(-1); // -1 indicates no note played on that string
+        let fretRange = startFret + 4;
 
-    let fretboard = guitar.strings.map(guitarString => {
-      return [guitarString.openString.name.toLowerCase()].concat(
-        guitarString.frets.map(fret => fret.note.name.toLowerCase())
-      );
+        for (let fret = startFret; fret < fretRange; fret++) {
+          if (filteredFretboard[string][fret] !== null) {
+            shape[string] = fret;
+            break; // move to the next string after finding a note
+          }
+        }
+
+        if (shape[string] !== -1) {
+          // Check remaining strings for chord notes within the 4-fret span
+          for (let nextString = string + 1; nextString < filteredFretboard.length; nextString++) {
+            for (let fret = startFret; fret < fretRange; fret++) {
+              if (filteredFretboard[nextString][fret] !== null) {
+                shape[nextString] = fret;
+                break;
+              }
+            }
+          }
+          shapes.push(shape);
+        }
+      }
+    }
+
+    // filter out if the shape dosen't include every note of the chord.
+    let result = shapes.filter(shape => {
+      let shapeNotes = shape.map((position, index) => {
+        if (position == -1)
+          return null;
+        else
+          return filteredFretboard[index][position];
+      });
+
+      return chord.every(noteInChord => shapeNotes.includes(noteInChord));
     });
-
-    let chordNotes = chord.noteIntervals.map(t => t.note.name.toLowerCase());
-
-
-    let shapes = this.findChords(fretboard, chordNotes);
-    console.log(shapes);
 
     return result;
   }
