@@ -4,6 +4,21 @@ import { IGuitar, IGuitarFret, IGuitarString } from '../../models/IGuitar';
 import { NgFor, NgIf } from '@angular/common';
 import { ToneService } from '../../../../core-theory/services/tone.service';
 
+export interface IGuitarPosition
+{
+  string: IGuitarString,
+  isOpenString: boolean,
+  fret: IGuitarFret | null
+}
+
+export interface IGuitarPositionsDisplay
+{
+  name: string,
+  color: string,
+  textColor: string,
+  positions: IGuitarPosition[]
+}
+
 @Component({
   selector: 'app-guitar',
   standalone: true,
@@ -16,13 +31,14 @@ export class GuitarComponent {
   readonly viewBoxWidth = 1500;
   readonly viewBoxHeight = 250;
   readonly viewPaddingY = 20;
-  readonly viewPaddingX = 20;
+  readonly viewPaddingX = 40;
 
   @Input() guitar: IGuitar | null = null;
   @Input() showNotes: boolean = true;
-  @Input() notes: INote[] = [];
   @Input() reversed: boolean = false;
   @Input() maxFrets: number | null = null;
+  @Input() notes: IGuitarPositionsDisplay[] = []
+  @Input() notesLegend: boolean = true;
 
   @Output() noteClicked = new EventEmitter<{
     note: INote,
@@ -77,11 +93,40 @@ export class GuitarComponent {
       this.guitar!.strings.slice()
   }
 
-  isNoteAskedFor(note: INote) {
-    return this.notes && this.notes.indexOf(note) > -1;
+  getOpenStringDisplay(string: IGuitarString) {
+
+    if (!this.notes) {
+      return null;
+    }
+
+    return this.notes.find(note => {
+      return note.positions.find(position => {
+        return position.isOpenString && string.openString.name == position.string.openString.name;
+      });
+    });
   }
 
-  showThisNote(note: INote) {
-    return this.showNotes ? true : this.isNoteAskedFor(note);
+  isOpenStringAskedFor(string: IGuitarString) {
+    return this.getOpenStringDisplay(string) ? true : false;
+  }
+
+  getNoteDisplay(string: IGuitarString, fret: IGuitarFret) {
+
+    if (!this.notes) {
+      return null;
+    }
+
+    return this.notes.find(note => {
+      return note.positions.find(position => {
+        return !position.isOpenString && 
+          string.openString.name == position.string.openString.name && 
+          fret.note.name == position.fret?.note.name &&
+          fret.octave == position.fret.octave
+      });
+    });
+  }
+
+  isNoteAskedFor(string: IGuitarString, fret: IGuitarFret) {
+    return this.getNoteDisplay(string, fret) ? true : false;
   }
 }

@@ -24,24 +24,49 @@
 
     <ng-container *ngFor="let string of finalStrings; let i = index">
 
+        <circle *ngIf="isOpenStringAskedFor(string)" 
+            (click)="emitNoteClicked(string.openString, string.startOctave)"
+            [attr.cy]="getStringYPosition(i)-5" 
+            [attr.cx]="20-5" r="20"
+            [attr.fill]="getOpenStringDisplay(string)?.color" />
+
         <!-- open note indicator -->
-        <text (click)="emitNoteClicked(string.openString, string.startOctave)" [attr.x]="0"
-            [attr.y]="getStringYPosition(i)+5" [attr.fill]="isNoteAskedFor(string.openString) ? 'blue' : 'black'"
-            [attr.font-weight]="isNoteAskedFor(string.openString) ? 400 : 100" font-family="Arial" font-size="10"
-            fill="black">
+        <text (click)="emitNoteClicked(string.openString, string.startOctave)" [attr.x]="10"
+            [attr.y]="getStringYPosition(i)+5" font-family="Arial" font-size="10"
+            [attr.fill]="getOpenStringDisplay(string)?.textColor ?? 'black'">
             {{string.openString.name}} {{ string.startOctave }}
         </text>
 
         <!-- strings -->
         <rect [attr.y]="getStringYPosition(i)" [attr.width]="viewBoxWidth - (viewPaddingX)" height="1.5"
             [attr.x]="viewPaddingX" [attr.fill]="'url(#stringGradient)'" />
-        
+
         <!-- notes -->
         <ng-container *ngFor="let fret of string.frets; let j = index">
-            <text *ngIf="showThisNote(fret.note)" [attr.y]="getStringYPosition(i)" [attr.x]="getFretXPosition(j+1)-20"
-                font-size="14" [attr.fill]="isNoteAskedFor(fret.note) ? 'blue' : 'black'"
-                [attr.font-weight]="isNoteAskedFor(fret.note) ? 400 : 100"
+
+            <!-- Circle -->
+            <circle *ngIf="isNoteAskedFor(string, fret)" [attr.cy]="getStringYPosition(i)-5"
+                [attr.cx]="getFretXPosition(j+1)-10" r="20" (click)="emitNoteClicked(fret.note, fret.octave)"
+                [attr.fill]="getNoteDisplay(string, fret)?.color" />
+
+
+            <text *ngIf="notes.length == 0 || showNotes == true || isNoteAskedFor(string, fret)"
+                [attr.y]="getStringYPosition(i)" [attr.x]="getFretXPosition(j+1)-20" font-size="14"
+                [attr.fill]="getNoteDisplay(string, fret)?.textColor ?? 'black'"
                 (click)="emitNoteClicked(fret.note, fret.octave)">{{ fret.note.name }}{{fret.octave}}</text>
         </ng-container>
     </ng-container>
 </svg>
+
+<div *ngIf="notesLegend && notes && notes.length" class="container d-flex justify-content-center align-items-center">
+    <div *ngFor="let d of notes; let i = index">
+        <svg width="25" height="25" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" [attr.fill]="d.color" />
+            <text x="50%" y="50%" font-size="40" dominant-baseline="middle" text-anchor="middle"
+                [attr.fill]="d.textColor">{{i+1}}</text>
+        </svg>
+
+
+        {{ d.name }}
+    </div>
+</div>

@@ -37,7 +37,7 @@
 <div class="row mt-2">
     <div class="col">
         <ng-container *ngIf="notes$ | async as notes">
-            <select class="form-control" [(ngModel)]="selectedNote" (change)="refreshDegrees()">
+            <select class="form-control" [(ngModel)]="selectedNote" (ngModelChange)="refreshDegrees()">
                 <option [ngValue]="null">Select a note</option>
                 <option [ngValue]="note" *ngFor="let note of notes">
                     <app-inline-note [note]="note"></app-inline-note>
@@ -46,7 +46,7 @@
         </ng-container>
     </div>
     <div class="col">
-        <select class="form-control" [(ngModel)]="selectedScale" (change)="refreshDegrees()">
+        <select class="form-control" [(ngModel)]="selectedScale" (ngModelChange)="refreshDegrees()">
             <option [ngValue]="null">Select a scale</option>
             <option [ngValue]="scaleType" *ngFor="let scaleType of scaleTypes">
                 {{ scaleType | titlecase }}
@@ -75,8 +75,29 @@
         <ng-container *ngFor="let c of degrees.chords; let i = index">
             <ng-container
                 *ngIf="showAllStyles || selectedStyle == null || c.chordDefinition.styles.indexOf(selectedStyle) >= 0">
-                <div class="col-12 col-md-6 col-lg-4 p-2">
-                    <app-chord [showClock]="showClocks" [chord]="c"></app-chord>
+                <div class="col-12 mt-2">
+                    <app-chord [showClock]="showClocks" [chord]="c">
+                        <div style="max-height: 350px; overflow-y: auto" ngbAccordion [closeOthers]="true">
+                            <ng-container *ngFor="let variation of getChordVariations(guitar!, c); let i = index">
+                                <div ngbAccordionItem [collapsed]="i != 0">
+                                    <h2 ngbAccordionHeader>
+                                        <button ngbAccordionButton>Variation: {{ i+1}}</button>
+                                    </h2>
+                                    <div ngbAccordionCollapse>
+                                        <div ngbAccordionBody>
+                                            <ng-template>
+                                                <app-guitar [guitar]="guitar" [reversed]="reversed" [showNotes]="true"
+                                                    [notesLegend]="false" [notes]="[variation.chordDisplay]">
+                                                </app-guitar>
+                                                <button (click)="playGuitarChord(variation.guitarChord)" class="btn btn-primary btn-sm">Play Guitar Chord</button>
+                                            </ng-template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+
+                    </app-chord>
                 </div>
             </ng-container>
         </ng-container>

@@ -20,6 +20,9 @@ export class ToneService {
     synth.triggerAttackRelease(noteName + position, length)
   }
   
+  playNotesAsChord(parts: string[]) {
+    polySynth.triggerAttackRelease(parts, "4n");
+  }
 
   playChord(chord: IChord) {
     const parts = chord.noteIntervals.map(t => t.note.name + "4");
