@@ -17,6 +17,7 @@ import { ChordComponent } from '../../../../core-theory/components/chord/chord.c
 import { IChord, MusicStyle } from '../../../../core-theory/models/IChord';
 import randomColor from 'randomcolor';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
+import { ToneService } from '../../../../core-theory/services/tone.service';
 
 @Component({
   selector: 'app-guitars-page',
@@ -55,13 +56,23 @@ export class GuitarsPageComponent {
 
   constructor(private guitarService: GuitarService,
     private noteService: NoteService,
-    private degreeService: ScaleDegreeService) {
+    private degreeService: ScaleDegreeService,
+    private toneService: ToneService) {
     this.options$ = guitarService.options();
     this.currentType = GuitarInstruments.GUITAR_STANDARD;
     this.notes$ = this.noteService.getNotes();
     this.styles = Object.values(MusicStyle).map((value) => {
       return { title: value, value: value };
     })
+  }
+
+  playGuitarChord(guitarChord: IGuitarChord) {
+    this.toneService.playNotesAsChord(guitarChord.positions.map(position => {
+      if (position.isOpenString)
+        return `${position.string.openString.name}${position.string.startOctave}`
+      else
+        return `${position.fret?.note.name}${position.fret?.octave}`
+    }));
   }
 
   refreshDegrees() {
@@ -94,7 +105,7 @@ export class GuitarsPageComponent {
     }
 
     let chords = this.guitarService.findChordPositions(guitar, c);
-    let randomColors = randomColor({ count: chords.length })
+    let randomColors = randomColor({ count: chords.length, luminosity: 'dark' })
     this.chordsCache[cacheKey] = {
       chord: c,
       variations: chords.map((gc, index) => {
@@ -103,7 +114,7 @@ export class GuitarsPageComponent {
           chordDisplay: {
             name: `position ${index+1}`,
             color: randomColors[index],
-            textColor: 'black',
+            textColor: 'white',
             positions: gc.positions
           }
         }

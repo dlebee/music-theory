@@ -89,6 +89,7 @@
                                                 <app-guitar [guitar]="guitar" [reversed]="reversed" [showNotes]="true"
                                                     [notesLegend]="false" [notes]="[variation.chordDisplay]">
                                                 </app-guitar>
+                                                <button (click)="playGuitarChord(variation.guitarChord)" class="btn btn-primary btn-sm">Play Guitar Chord</button>
                                             </ng-template>
                                         </div>
                                     </div>

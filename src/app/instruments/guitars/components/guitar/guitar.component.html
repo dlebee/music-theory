@@ -24,7 +24,10 @@
 
     <ng-container *ngFor="let string of finalStrings; let i = index">
 
-        <circle *ngIf="isOpenStringAskedFor(string)" [attr.cy]="getStringYPosition(i)-5" [attr.cx]="20-5" r="20"
+        <circle *ngIf="isOpenStringAskedFor(string)" 
+            (click)="emitNoteClicked(string.openString, string.startOctave)"
+            [attr.cy]="getStringYPosition(i)-5" 
+            [attr.cx]="20-5" r="20"
             [attr.fill]="getOpenStringDisplay(string)?.color" />
 
         <!-- open note indicator -->
