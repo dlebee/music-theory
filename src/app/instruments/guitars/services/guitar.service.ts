@@ -11,6 +11,11 @@ export interface GuitarOptions {
   types: GuitarInstruments[]
 }
 
+interface GuitarPosition {
+  stringIndex: number,
+  fretIndex: number,
+  note: string
+}
 
 @Injectable({
   providedIn: 'root'
@@ -85,77 +90,57 @@ export class GuitarService {
     return ret;
   }
 
-  findChordPositionsNeckSubset(guitar: IGuitar, chord: IChord, yPositionIndex: number): IGuitarChord[] {
+  private findChords(fretboard: string[][], chord: string[]) : GuitarPosition[][] {
+    let result: GuitarPosition[][]= [];
 
-    const STRETCH_FRET_COUNT = 4;
+    if (0 == fretboard.length)
+      return result;
 
-    let chordNotes = chord.noteIntervals.map(t => t.note.name.toLowerCase());
+    console.log(fretboard, chord);
+    
+    let stringCount = fretboard.length;
+    console.log('stringCount', stringCount);
+    let fretCount = fretboard[0].length;
+    let maxFretStretch = 4;
 
-    let positions: Array<Array<null | IGuitarChordPosition>> = [];
+    // number of brute force per fret
+    for(let fretIndex = fretCount-1; fretIndex >= 0; fretIndex--) {
 
-    // now what I want to play with is a range of frets that we can stretch with
-    for (let stretchIndex = 0; stretchIndex < STRETCH_FRET_COUNT; stretchIndex++) {
+      let fretRangeFindings: GuitarPosition[] = [];
 
-      // now lets find all the positions that can work in the chord :)
-      let currentYPosition = yPositionIndex + stretchIndex;
-      if (currentYPosition == 0) {
-        // open string
-        let stringNotes = guitar.strings.map(string => {
-          let indexOf = chordNotes.indexOf(string.openString.name.toLowerCase());
-          if (indexOf == -1)
-            return null;
-          else
-            return <IGuitarChordPosition>{
-              fret: null,
-              string: string,
-              isOpenString: true
-            };
-        });
-
-        positions.push(stringNotes);
-      } else {
-        // fret position
-        let fretIndex = currentYPosition - 1;
-        // open string
-        let stringNotes = guitar.strings
-          .map(string => {
-            let fret = string.frets[fretIndex];
-            let indexOf = chordNotes.indexOf(fret.note.name.toLowerCase());
-            if (indexOf == -1)
-              return null;
-            else
-              return <IGuitarChordPosition>{
-                fret: fret,
-                string: string,
-                isOpenString: false
-              };
-          });
-
-        positions.push(stringNotes);
+      for (let fretStretchIndex = fretIndex, j = 0; fretStretchIndex >= 0 && j < maxFretStretch; fretStretchIndex--, j++) {
+        
+        // now lets move down with the strings :)
+        for (let stringIndex = 0 ; stringIndex < stringCount; stringIndex++) {
+          let note = fretboard[stringIndex][fretStretchIndex];
+          if (chord.indexOf(note) != -1)
+          fretRangeFindings.push({ stringIndex: stringIndex, fretIndex: fretStretchIndex, note: note });
+        }
       }
-    }
 
-    return this.createVariationsFromPositions(chord, positions);
-  }
-
-  findChordPositions(guitar: IGuitar, chord: IChord): IGuitarChord[] {
-
-    let numberOfFrets = guitar.fretCount;
-    let result: IGuitarChord[] = [];
-
-    // lets add a number and consider the first fret the open string.
-    let totalIterations = numberOfFrets + 1;
-    for (let i = 0; i < totalIterations; i++) {
-      result.concat(this.findChordPositionsNeckSubset(guitar, chord, i));
-
-      // stop at the first one until I can determine its working lol
+      console.log(fretRangeFindings);
       break;
     }
 
     return result;
   }
 
-  createVariationsFromPositions(chord: IChord, positions: (IGuitarChordPosition | null)[][]): IGuitarChord[] {
-    return [];
+  findChordPositions(guitar: IGuitar, chord: IChord): IGuitarChord[] {
+
+    let result: IGuitarChord[] = [];
+
+    let fretboard = guitar.strings.map(guitarString => {
+      return [guitarString.openString.name.toLowerCase()].concat(
+        guitarString.frets.map(fret => fret.note.name.toLowerCase())
+      );
+    });
+
+    let chordNotes = chord.noteIntervals.map(t => t.note.name.toLowerCase());
+
+
+    let shapes = this.findChords(fretboard, chordNotes);
+    console.log(shapes);
+
+    return result;
   }
 }
