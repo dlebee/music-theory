@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
+import { ChangeDetectorRef, Injectable } from '@angular/core';
 import { NoteIntervalService } from '../../../core-theory/services/note-interval.service';
 import { INote } from '../../../core-theory/models/INote';
 import { GuitarCategories, GuitarInstruments, IGuitar, IGuitarChord, IGuitarChordPosition, IGuitarString, guitarInstruments } from '../models/IGuitar';
 import { Observable, map, of, throwError } from 'rxjs';
 import { NoteService } from '../../../core-theory/services/note.service';
 import { IChord } from '../../../core-theory/models/IChord';
+import { IScale } from '../../../core-theory/models/IScale';
+import { IGuitarPosition, IGuitarPositionsDisplay } from '../components/guitar/guitar.component';
 
 export interface GuitarOptions {
   category: GuitarCategories,
@@ -16,7 +18,8 @@ export interface GuitarOptions {
 })
 export class GuitarService {
 
-  constructor(private noteIntervalService: NoteIntervalService, private noteService: NoteService) {
+  constructor(private noteIntervalService: NoteIntervalService, 
+    private noteService: NoteService) {
 
   }
 
@@ -113,13 +116,13 @@ export class GuitarService {
           list.push({
             isOpenString: pos == 0,
             string: guitar.strings[index],
-            fret: pos == 0 ? null : guitar.strings[index].frets[pos-1]
+            fret: pos == 0 ? null : guitar.strings[index].frets[pos - 1]
           });
           return list;
         }, [])
       }
     });
-    
+
     console.log(result);
 
     return result;
@@ -168,5 +171,37 @@ export class GuitarService {
     });
 
     return result;
+  }
+
+  findScalePositions(guitar: IGuitar, scale: IScale): IGuitarPositionsDisplay {
+    let positions: IGuitarPosition[] = [];
+    let scaleNotes = scale.noteIntervals.map(t => t.note.name.toLowerCase());
+
+    guitar.strings.forEach(string => {
+      if (scaleNotes.includes(string.openString.name.toLowerCase())) {
+        positions.push({
+          isOpenString: true,
+          string: string,
+          fret: null
+        })
+      }
+
+      string.frets.forEach(fret => {
+        if (scaleNotes.includes(fret.note.name.toLowerCase())) {
+          positions.push({
+            string: string,
+            isOpenString: false,
+            fret: fret
+          });
+        }
+      });
+    });
+
+    return {
+      name: `${scale.key.name} ${scale.key.alternativeName ?? ""} ${scale.definition.name}`,
+      color: 'black',
+      textColor: 'white',
+      positions: positions
+    }
   }
 }

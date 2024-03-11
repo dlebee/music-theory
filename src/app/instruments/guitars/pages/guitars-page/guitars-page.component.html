@@ -37,7 +37,7 @@
 <div class="row mt-2">
     <div class="col">
         <ng-container *ngIf="notes$ | async as notes">
-            <select class="form-control" [(ngModel)]="selectedNote" (change)="refreshDegrees()">
+            <select class="form-control" [(ngModel)]="selectedNote" (ngModelChange)="refreshDegrees()">
                 <option [ngValue]="null">Select a note</option>
                 <option [ngValue]="note" *ngFor="let note of notes">
                     <app-inline-note [note]="note"></app-inline-note>
@@ -46,7 +46,7 @@
         </ng-container>
     </div>
     <div class="col">
-        <select class="form-control" [(ngModel)]="selectedScale" (change)="refreshDegrees()">
+        <select class="form-control" [(ngModel)]="selectedScale" (ngModelChange)="refreshDegrees()">
             <option [ngValue]="null">Select a scale</option>
             <option [ngValue]="scaleType" *ngFor="let scaleType of scaleTypes">
                 {{ scaleType | titlecase }}

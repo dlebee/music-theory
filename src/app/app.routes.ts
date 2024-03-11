@@ -5,7 +5,7 @@ import { NotePageComponent } from './core-theory/pages/note-page/note-page.compo
 import { ChordsPageComponent } from './core-theory/pages/chords-page/chords-page.component';
 import { ScaleDegreesPageComponent } from './core-theory/pages/scale-degrees-page/scale-degrees-page.component';
 import { GuitarsPageComponent } from './instruments/guitars/pages/guitars-page/guitars-page.component';
-import { TestComponentComponent } from './pages/test-component/TestComponentComponent';
+import { TestComponentComponent } from './pages/test-component/test-component.component';
 
 export const routes: Routes = [
     {
