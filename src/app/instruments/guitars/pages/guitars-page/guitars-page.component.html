@@ -79,10 +79,7 @@
                     <app-chord [showClock]="showClocks" [chord]="c">
                         <div style="max-height: 350px; overflow-y: auto" ngbAccordion [closeOthers]="true">
                             <ng-container *ngFor="let variation of getChordVariations(guitar!, c); let i = index">
-
-
-
-                                <div ngbAccordionItem>
+                                <div ngbAccordionItem [collapsed]="i != 0">
                                     <h2 ngbAccordionHeader>
                                         <button ngbAccordionButton>Variation: {{ i+1}}</button>
                                     </h2>
