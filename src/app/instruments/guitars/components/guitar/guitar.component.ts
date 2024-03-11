@@ -38,6 +38,7 @@ export class GuitarComponent {
   @Input() reversed: boolean = false;
   @Input() maxFrets: number | null = null;
   @Input() notes: IGuitarPositionsDisplay[] = []
+  @Input() notesLegend: boolean = true;
 
   @Output() noteClicked = new EventEmitter<{
     note: INote,

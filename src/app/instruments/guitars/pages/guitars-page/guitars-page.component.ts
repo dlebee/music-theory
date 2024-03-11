@@ -2,7 +2,7 @@ import { AsyncPipe, JsonPipe, NgFor, NgIf, TitleCasePipe } from '@angular/common
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { GuitarOptions, GuitarService } from '../../services/guitar.service';
 import { Observable, map, of } from 'rxjs';
-import { GuitarInstruments, IGuitar, IGuitarFret, IGuitarString } from '../../models/IGuitar';
+import { GuitarInstruments, IGuitar, IGuitarChord, IGuitarFret, IGuitarString } from '../../models/IGuitar';
 import { FormsModule } from '@angular/forms';
 import { GuitarComponent, IGuitarPositionsDisplay } from '../../components/guitar/guitar.component';
 import { NoteService } from '../../../../core-theory/services/note.service';
@@ -14,14 +14,17 @@ import { IScaleDegrees } from '../../../../core-theory/models/IScaleDegrees';
 import { DegreesTableComponent } from '../../../../core-theory/components/degrees-table/degrees-table.component';
 import { ScaleComponent } from '../../../../core-theory/components/scale/scale.component';
 import { ChordComponent } from '../../../../core-theory/components/chord/chord.component';
-import { MusicStyle } from '../../../../core-theory/models/IChord';
+import { IChord, MusicStyle } from '../../../../core-theory/models/IChord';
+import randomColor from 'randomcolor';
+import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-guitars-page',
   standalone: true,
   imports: [NgIf, NgFor, AsyncPipe, FormsModule, JsonPipe,
     GuitarComponent, InlineNoteComponent, DegreesTableComponent,
-    ScaleComponent, ChordComponent, TitleCasePipe
+    ScaleComponent, ChordComponent, TitleCasePipe,
+    NgbAccordionModule
   ],
   templateUrl: './guitars-page.component.html',
   styleUrl: './guitars-page.component.scss'
@@ -42,6 +45,13 @@ export class GuitarsPageComponent {
   showAllStyles = false;
   styles: { title: string; value: MusicStyle; }[];
   selectedStyle: MusicStyle | null = null;
+  chordsCache: { [key: string] : {
+    chord: IChord,
+    variations: {
+      guitarChord: IGuitarChord,
+      chordDisplay: IGuitarPositionsDisplay
+    }[]
+  }} = {};
 
   constructor(private guitarService: GuitarService,
     private noteService: NoteService,
@@ -73,6 +83,36 @@ export class GuitarsPageComponent {
 
   get currentType() {
     return this._currentType;
+  }
+
+  getChordVariations(guitar: IGuitar, c: IChord) {
+
+    let cacheKey = `${guitar.definition.type}:${c.key.name}:${c.type}`;
+    if (this.chordsCache[cacheKey]) {
+      console.log('using cache for cache key', cacheKey);
+      return this.chordsCache[cacheKey].variations;
+    }
+
+    let chords = this.guitarService.findChordPositions(guitar, c);
+    let randomColors = randomColor({ count: chords.length })
+    this.chordsCache[cacheKey] = {
+      chord: c,
+      variations: chords.map((gc, index) => {
+        return {
+          guitarChord: gc,
+          chordDisplay: {
+            name: `position ${index+1}`,
+            color: randomColors[index],
+            textColor: 'black',
+            positions: gc.positions
+          }
+        }
+      })
+    };
+
+
+    console.log('created cache for cache key', cacheKey);
+    return this.chordsCache[cacheKey].variations;
   }
 
   set currentType(value: GuitarInstruments | null) {

@@ -15,13 +15,14 @@ export interface IGuitarFret {
 
 export interface IGuitar
 {
+    definition: IGuitarInstrumentDefinition
     fretCount: number;
     strings: IGuitarString[];
 }
 
 export interface IGuitarChord {
     chord: IChord;
-    positions: Array<null | IGuitarChordPosition>
+    positions: Array<IGuitarChordPosition>
 }
 
 export interface IGuitarChordPosition {

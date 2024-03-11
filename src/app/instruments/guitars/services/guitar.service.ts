@@ -45,6 +45,7 @@ export class GuitarService {
         map(notes => {
 
           let guitar: IGuitar = {
+            definition: definition!,
             fretCount: definition!.frets,
             strings: definition!.notes.map(noteDefinition => {
               return this.createString(notes.find(t => t.name.toLowerCase() == noteDefinition.note.toLowerCase())!, notes, definition!.frets, noteDefinition.octave);
