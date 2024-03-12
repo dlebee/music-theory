@@ -159,7 +159,7 @@ export class GuitarService {
     const isValidShape = (shape: number[]): boolean => {
         let notesInShape = shape.map((fret, stringIndex) => fret !== -1 ? fretboard[stringIndex][fret] : "");
         let uniqueNotes = new Set(notesInShape.filter(note => note !== ""));
-        return uniqueNotes.size >= chord.length && chord.every(chordNote => notesInShape.includes(chordNote));
+        return uniqueNotes.size >= chord.length && notesInShape.every(note => note == "" || chord.includes(note));
     };
 
     for (let startFret = 0; startFret <= 12; startFret++) {
