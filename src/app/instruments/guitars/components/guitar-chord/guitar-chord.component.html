@@ -1,0 +1,15 @@
+<svg [attr.width]="svgWidth" [attr.height]="svgHeight" xmlns="http://www.w3.org/2000/svg">
+    <!-- Draw frets -->
+    <line *ngFor="let fret of frets; let i = index" [attr.x1]="xOffset" [attr.y1]="yOffset + i * fretSpacing"
+        [attr.x2]="xOffset + stringSpacing * (strings.length - 1)" [attr.y2]="yOffset + i * fretSpacing" stroke="black"
+        stroke-width="2"></line>
+
+    <!-- Draw strings -->
+    <line *ngFor="let string of strings; let i = index" [attr.x1]="xOffset + i * stringSpacing" y1="20"
+        [attr.x2]="xOffset + i * stringSpacing" [attr.y2]="yOffset + frets.length * fretSpacing" stroke="black"
+        stroke-width="2"></line>
+
+    <!-- Draw chord positions -->
+    <circle *ngFor="let position of chordPositions" [attr.cx]="xOffset + getStringIndex(position) * stringSpacing"
+        [attr.cy]="yOffset + getFretIndex(position) * fretSpacing" r="5" fill="black"></circle>
+</svg>
