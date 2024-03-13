@@ -42,13 +42,13 @@ export enum GuitarInstruments {
     BASS_STANDARD_5_STRING = 'Standard 5-String',
     BASS_STANDARD_6_STRING = 'Standard 6-String',
     GUITAR_STANDARD = 'Standard',
-    GUITAR_FLATENNED = 'Guitar Flatenned',
-    GUITAR_DROP_D = 'Drop D',
-    GUITAR_OPEN_G = 'Open G',
-    GUITAR_OPEN_D = 'Open D',
-    GUITAR_DROP_E = 'Drop E',
-    UKULELE_STANDARD = 'Standard',
-    UKULELE_BARITONE = 'Baritone'
+    GUITAR_FLATENNED = 'Guitar Half step down',
+    GUITAR_DROP_D = 'Guitar Drop D',
+    GUITAR_OPEN_G = 'Guitar Open G',
+    GUITAR_OPEN_D = 'Guitar Open D',
+    GUITAR_DROP_E = 'Guitar Drop E',
+    UKULELE_STANDARD = 'Ukelele Standard',
+    UKULELE_BARITONE = 'Ukelele Baritone'
 };
 
 export interface IGuitarInstrumentDefinition {

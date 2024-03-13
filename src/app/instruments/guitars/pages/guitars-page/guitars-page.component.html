@@ -5,7 +5,7 @@
         <ng-container *ngIf="options$ | async as options">
             <select [(ngModel)]="currentType" class="form-control">
                 <optgroup [attr.label]="c.category" *ngFor="let c of options">
-                    <option [value]="t" *ngFor="let t of c.types">{{t}}</option>
+                    <option [ngValue]="t" *ngFor="let t of c.types">{{t}}</option>
                 </optgroup>
             </select>
         </ng-container>
