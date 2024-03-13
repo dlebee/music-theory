@@ -162,9 +162,9 @@ export class GuitarChordComponent {
 
     getPositionMarker(position: IChordGridPosition): string {
         if (position.note.name == this.chord?.chord.key.name) {
-            return 'R'; // Display 'R' for root string
+            return 'R' + position.note.name; // Display 'R' for root string
         } else if (position.adjustedFretIndex === 0) {
-            return 'O'; // Display 'O' for open string
+            return 'O' + " " + position.note.name; // Display 'O' for open string
         } else if (position.isBeingPlayed == false) {
             return 'X'; // Display 'X' for muted string
         } else {
