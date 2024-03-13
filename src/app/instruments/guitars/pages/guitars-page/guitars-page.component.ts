@@ -116,8 +116,9 @@ export class GuitarsPageComponent {
             name: `position ${index+1}`,
             color: randomColors[index],
             textColor: 'white',
-            positions: gc.positions
-          }
+            positions: gc.positions,
+            key: c.key
+          },
         }
       })
     };

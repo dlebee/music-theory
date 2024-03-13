@@ -197,7 +197,8 @@ export class GuitarService {
       name: `${scale.key.name} ${scale.key.alternativeName ?? ""} ${scale.definition.name}`,
       color: 'black',
       textColor: 'white',
-      positions: positions
+      positions: positions,
+      key: scale.key
     }
   }
 }

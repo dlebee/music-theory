@@ -26,8 +26,10 @@
 
         <circle *ngIf="isOpenStringAskedFor(string)" 
             (click)="emitNoteClicked(string.openString, string.startOctave)"
-            [attr.cy]="getStringYPosition(i)-5" 
-            [attr.cx]="20-5" r="20"
+            [attr.cy]="getStringYPosition(i)-2" 
+            [attr.cx]="20-2.5" r="15"
+            stroke="blue"
+            [attr.stroke-width]="isOpenStringKey(string) ? 2 : 0"
             [attr.fill]="getOpenStringDisplay(string)?.color" />
 
         <!-- open note indicator -->
@@ -47,7 +49,9 @@
             <!-- Circle -->
             <circle *ngIf="isNoteAskedFor(string, fret)" [attr.cy]="getStringYPosition(i)-5"
                 [attr.cx]="getFretXPosition(j+1)-15" r="15" (click)="emitNoteClicked(fret.note, fret.octave)"
-                [attr.fill]="getNoteDisplay(string, fret)?.color" [attr.opacity]="0.5" />
+                [attr.fill]="getNoteDisplay(string, fret)?.color" [attr.opacity]="0.5" 
+                stroke="blue"
+                [attr.stroke-width]="isNoteKey(string, fret) ? 2 : 0"/>
 
 
             <text *ngIf="notes.length == 0 || showNotes == true || isNoteAskedFor(string, fret)"

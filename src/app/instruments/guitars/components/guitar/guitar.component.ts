@@ -16,6 +16,7 @@ export interface IGuitarPositionsDisplay
   name: string,
   color: string,
   textColor: string,
+  key: INote | null,
   positions: IGuitarPosition[]
 }
 
@@ -110,6 +111,14 @@ export class GuitarComponent {
     return this.getOpenStringDisplay(string) ? true : false;
   }
 
+  isOpenStringKey(string: IGuitarString) {
+    let display = this.getOpenStringDisplay(string);
+    if (!display)
+      return false;
+
+    return display.key && display.key.name == string.openString.name;
+  }
+
   getNoteDisplay(string: IGuitarString, fret: IGuitarFret) {
 
     if (!this.notes) {
@@ -128,5 +137,13 @@ export class GuitarComponent {
 
   isNoteAskedFor(string: IGuitarString, fret: IGuitarFret) {
     return this.getNoteDisplay(string, fret) ? true : false;
+  }
+
+  isNoteKey(string: IGuitarString, fret: IGuitarFret) {
+    let display = this.getNoteDisplay(string, fret);
+    if (!display)
+      return false;
+
+    return display.key && display.key.name == fret.note.name;
   }
 }
