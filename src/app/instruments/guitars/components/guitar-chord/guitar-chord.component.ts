@@ -133,9 +133,16 @@ export class GuitarChordComponent {
   }
 
   readonly viewBoxWidth = 160; // Width of the SVG viewBox
-    readonly viewBoxHeight = 120; // Height of the SVG viewBox
+    //readonly viewBoxHeight = 120; // Height of the SVG viewBox
     readonly cellWidth = 40; // Width of each cell in the grid
     readonly cellHeight = 20; // Height of each cell in the grid
+
+  get viewBoxHeight() {
+    if (this.guitar)
+      return this.cellHeight * this.guitar.strings.length;
+
+    return 0;
+  }
 
     getRectX(columnIndex: number): number {
         return columnIndex * this.cellWidth;
