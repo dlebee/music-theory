@@ -13,7 +13,7 @@
     <ng-container *ngFor="let item of [].constructor(fretCount+1); let i = index">
 
         <!-- fret indicator -->
-        <text [attr.x]="getFretXPosition(i)" [attr.y]="viewPaddingY/2" font-family="Arial" font-size="8" fill="black">
+        <text [attr.x]="getFretXPosition(i)-6" [attr.y]="viewPaddingY/2" font-family="Arial" font-size="14" fill="black">
             {{ i }}
         </text>
 
@@ -46,12 +46,12 @@
 
             <!-- Circle -->
             <circle *ngIf="isNoteAskedFor(string, fret)" [attr.cy]="getStringYPosition(i)-5"
-                [attr.cx]="getFretXPosition(j+1)-10" r="20" (click)="emitNoteClicked(fret.note, fret.octave)"
-                [attr.fill]="getNoteDisplay(string, fret)?.color" />
+                [attr.cx]="getFretXPosition(j+1)-15" r="15" (click)="emitNoteClicked(fret.note, fret.octave)"
+                [attr.fill]="getNoteDisplay(string, fret)?.color" [attr.opacity]="0.5" />
 
 
             <text *ngIf="notes.length == 0 || showNotes == true || isNoteAskedFor(string, fret)"
-                [attr.y]="getStringYPosition(i)" [attr.x]="getFretXPosition(j+1)-20" font-size="14"
+                [attr.y]="getStringYPosition(i)" [attr.x]="getFretXPosition(j+1)-25" font-size="12"
                 [attr.fill]="getNoteDisplay(string, fret)?.textColor ?? 'black'"
                 (click)="emitNoteClicked(fret.note, fret.octave)">{{ fret.note.name }}{{fret.octave}}</text>
         </ng-container>
