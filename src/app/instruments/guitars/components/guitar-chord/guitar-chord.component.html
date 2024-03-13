@@ -2,9 +2,9 @@
     <ng-container *ngFor="let row of chordMap; let i = index">
         <ng-container *ngFor="let position of row; let j = index">
             <rect [attr.x]="getRectX(j)" [attr.y]="getRectY(i)" [attr.width]="cellWidth" [attr.height]="cellHeight"
-                [attr.fill]="position.isBeingPlayed ? 'black' : 'white'" stroke="black" stroke-width="1" />
-            <text [attr.x]="getTextX(j)" [attr.y]="getTextY(i)" alignment-baseline="middle" text-anchor="middle"
-                [attr.fill]="position.isBeingPlayed ? 'white' : 'black'">
+                [attr.fill]="position.isBeingPlayed ? 'black' : 'white'" stroke="black" stroke-width="1" (click)="playPosition(position)"/>
+            <text [attr.x]="getTextX(j)" [attr.y]="getTextY(i)" alignment-baseline="middle" text-anchor="middle" 
+                [attr.fill]="position.isBeingPlayed ? 'white' : 'black'" (click)="playPosition(position)">
                 {{ getPositionMarker(position) }}
             </text>
         </ng-container>

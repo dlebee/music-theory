@@ -68,8 +68,9 @@ export class GuitarChordComponent {
     this.tone.playNotesAsChord(notes);
   }
 
-  playNote(position: IChordGridPosition) {
-
+  playPosition(position: IChordGridPosition) {
+    if (position.isBeingPlayed)
+      this.tone.playNote(position.note.name, position.octave, "4n");
   }
 
   refreshData() {
