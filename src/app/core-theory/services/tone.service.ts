@@ -14,7 +14,7 @@ export class ToneService {
 
   constructor() { }
 
-  playNote(noteName: string, position: string, length: string) {
+  playNote(noteName: string, position: string | number, length: string) {
     
     // trigger the attack immediately
     synth.triggerAttackRelease(noteName + position, length)

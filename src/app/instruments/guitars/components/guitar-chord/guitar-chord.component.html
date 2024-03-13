@@ -1,0 +1,16 @@
+<svg width="100%" width="100%" [attr.viewBox]="'0 0 '+ viewBoxWidth + ' ' +  viewBoxHeight" xmlns="http://www.w3.org/2000/svg">
+    <ng-container *ngFor="let row of chordMap; let i = index">
+        <ng-container *ngFor="let position of row; let j = index">
+            <rect [attr.x]="getRectX(j)" [attr.y]="getRectY(i)" [attr.width]="cellWidth" [attr.height]="cellHeight"
+                [attr.fill]="position.isBeingPlayed ? 'black' : (position.isOpenString ? 'blue' : 'white')" stroke="black" stroke-width="1" (click)="playPosition(position)"/>
+            <text [attr.x]="getTextX(j)" [attr.y]="getTextY(i)" alignment-baseline="middle" text-anchor="middle" 
+                [attr.fill]="position.isBeingPlayed ? 'white' : 'black'" (click)="playPosition(position)">
+                {{ getPositionMarker(position) }}
+            </text>
+        </ng-container>
+    </ng-container>
+</svg>
+
+<div class="text-center mt-2">
+    <button class="btn btn-sm btn-primary" (click)="playChord()">Play Chord</button>
+</div>

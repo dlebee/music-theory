@@ -38,7 +38,7 @@
         </text>
 
         <!-- strings -->
-        <rect [attr.y]="getStringYPosition(i)" [attr.width]="viewBoxWidth - (viewPaddingX)" height="1.5"
+        <rect [attr.y]="getStringYPosition(i)" [attr.width]="viewBoxWidth - (viewPaddingX)" [attr.height]="reversed ? i+1 * 1.125 : 7-i * 1.125"
             [attr.x]="viewPaddingX" [attr.fill]="'url(#stringGradient)'" />
 
         <!-- notes -->
