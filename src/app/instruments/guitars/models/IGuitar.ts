@@ -38,10 +38,10 @@ export enum GuitarCategories {
 };
 
 export enum GuitarInstruments {
-    BASS_STANDARD_4_STRING = 'Standard 4-String',
-    BASS_STANDARD_5_STRING = 'Standard 5-String',
-    BASS_STANDARD_6_STRING = 'Standard 6-String',
-    GUITAR_STANDARD = 'Standard',
+    BASS_STANDARD_4_STRING = 'Bass Standard 4-String',
+    BASS_STANDARD_5_STRING = 'Bass Standard 5-String',
+    BASS_STANDARD_6_STRING = 'Bass Standard 6-String',
+    GUITAR_STANDARD = 'Guitar Standard',
     GUITAR_FLATENNED = 'Guitar Half step down',
     GUITAR_DROP_D = 'Guitar Drop D',
     GUITAR_OPEN_G = 'Guitar Open G',
