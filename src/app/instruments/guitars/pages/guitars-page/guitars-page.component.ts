@@ -18,6 +18,7 @@ import { IChord, MusicStyle } from '../../../../core-theory/models/IChord';
 import randomColor from 'randomcolor';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToneService } from '../../../../core-theory/services/tone.service';
+import { GuitarChordComponent } from '../../components/guitar-chord/guitar-chord.component';
 
 @Component({
   selector: 'app-guitars-page',
@@ -25,7 +26,7 @@ import { ToneService } from '../../../../core-theory/services/tone.service';
   imports: [NgIf, NgFor, AsyncPipe, FormsModule, JsonPipe,
     GuitarComponent, InlineNoteComponent, DegreesTableComponent,
     ScaleComponent, ChordComponent, TitleCasePipe,
-    NgbAccordionModule
+    NgbAccordionModule, GuitarChordComponent
   ],
   templateUrl: './guitars-page.component.html',
   styleUrl: './guitars-page.component.scss'
