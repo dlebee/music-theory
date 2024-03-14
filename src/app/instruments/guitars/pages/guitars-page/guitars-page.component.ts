@@ -45,6 +45,7 @@ export class GuitarsPageComponent {
   scaleNotes: IGuitarPositionsDisplay[] = [];
   showClocks = false;
   showAllStyles = false;
+  chordDisplay: "Chord" | "Guitar" = "Chord";
   styles: { title: string; value: MusicStyle; }[];
   selectedStyle: MusicStyle | null = null;
   chordsCache: { [key: string] : {

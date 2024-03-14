@@ -10,6 +10,12 @@
             </select>
         </ng-container>
     </div>
+    <div class="col">
+        <select [(ngModel)]="chordDisplay" class="form-control">
+            <option>Chord</option>
+            <option>Guitar</option>
+        </select>
+    </div>
 </div>
 
 <div class="row mt-2">
@@ -77,15 +83,39 @@
                 *ngIf="showAllStyles || selectedStyle == null || c.chordDefinition.styles.indexOf(selectedStyle) >= 0">
                 <div class="col-12 mt-2">
                     <app-chord [showClock]="showClocks" [chord]="c">
-                        <div class="row" style="height: 400px; overflow-y: auto;">
-                            <ng-container *ngFor="let variation of getChordVariations(guitar!, c); let i = index">
-                                <div class="col-md-4 col-sm-12 col-lg-3 p-2">
-                                    <app-guitar-chord [guitar]="guitar!"
-                                        [chord]="variation.guitarChord">
-                                    </app-guitar-chord>
-                                </div>
-                            </ng-container>
-                        </div>
+                        <ng-container *ngIf="chordDisplay == 'Chord'">
+                            <div class="row" style="height: 300px; overflow-y: auto;">
+                                <ng-container *ngFor="let variation of getChordVariations(guitar!, c); let i = index">
+                                    <div class="col-md-4 col-sm-12 col-lg-3 p-2">
+                                        <app-guitar-chord [guitar]="guitar!" [chord]="variation.guitarChord">
+                                        </app-guitar-chord>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="chordDisplay == 'Guitar'">
+                            <div style="max-height: 350px; overflow-y: auto" ngbAccordion [closeOthers]="true">
+                                <ng-container *ngFor="let variation of getChordVariations(guitar!, c); let i = index">
+                                    <div ngbAccordionItem [collapsed]="i != 0">
+                                        <h2 ngbAccordionHeader>
+                                            <button ngbAccordionButton>Variation: {{ i+1}}</button>
+                                        </h2>
+                                        <div ngbAccordionCollapse>
+                                            <div ngbAccordionBody>
+                                                <ng-template>
+                                                    <app-guitar [guitar]="guitar" [reversed]="reversed"
+                                                        [showNotes]="true" [notesLegend]="false"
+                                                        [notes]="[variation.chordDisplay]">
+                                                    </app-guitar>
+                                                    <button (click)="playGuitarChord(variation.guitarChord)"
+                                                        class="btn btn-primary btn-sm">Play Guitar Chord</button>
+                                                </ng-template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </ng-container>
                     </app-chord>
                 </div>
             </ng-container>
