@@ -47,6 +47,7 @@ export enum GuitarInstruments {
     GUITAR_OPEN_G = 'Guitar Open G',
     GUITAR_OPEN_D = 'Guitar Open D',
     GUITAR_DROP_E = 'Guitar Drop E',
+    GUITAR_D_A_E_G_A_D = 'Guitar D-A-E-G-A-D',
     UKULELE_STANDARD = 'Ukelele Standard',
     UKULELE_BARITONE = 'Ukelele Baritone'
 };
@@ -173,6 +174,19 @@ export const guitarInstruments: IGuitarInstrumentDefinition[] = [
             { note: 'G', octave: 2 },
             { note: 'B', octave: 2 },
             { note: 'E', octave: 3 }
+        ],
+        frets: 24
+    },
+    {
+        category: GuitarCategories.GUITAR,
+        type: GuitarInstruments.GUITAR_D_A_E_G_A_D,
+        notes: [
+            { note: 'D', octave: 2 },
+            { note: 'A', octave: 2 },
+            { note: 'E', octave: 3 },
+            { note: 'G', octave: 3 },
+            { note: 'A', octave: 3 },
+            { note: 'D', octave: 4 }
         ],
         frets: 24
     },
